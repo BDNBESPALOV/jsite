@@ -17,6 +17,17 @@
 
 
 <a href="<@spring.url '/personList'/>">Person List</a>
+<a href="<@spring.url '/formFindLog'/>">Path </a>
+
+<div>
+    <fieldset>
+        <legend>Command console</legend>
+        <form name="person" action="" method="POST">
+            Command: <@spring.formInput "JClient.command" "" "text"/>    <br/>
+            <input type="submit" value="Create" />
+        </form>
+    </fieldset>
+</div>
 
 </body>
 

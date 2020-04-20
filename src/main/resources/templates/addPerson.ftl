@@ -13,16 +13,16 @@
 </div>
 </#if>
 
-<div>
-    <fieldset>
-        <legend>Add Person</legend>
-        <form name="person" action="" method="POST">
-            First Name: <@spring.formInput "personForm.firstName" "" "text"/>    <br/>
-            Last Name: <@spring.formInput "personForm.lastName" "" "text"/>    <br/>
-            <input type="submit" value="Create" />
-        </form>
-    </fieldset>
-</div>
+<!--<div>-->
+<!--    <fieldset>-->
+<!--        <legend>Add Person</legend>-->
+<!--        <form name="person" action="" method="POST">-->
+<!--            First Name: <@spring.formInput "personForm.firstName" "" "text"/>    <br/>-->
+<!--            Last Name: <@spring.formInput "personForm.lastName" "" "text"/>    <br/>-->
+<!--            <input type="submit" value="Create" />-->
+<!--        </form>-->
+<!--    </fieldset>-->
+<!--</div>-->
 
 
 </body>
