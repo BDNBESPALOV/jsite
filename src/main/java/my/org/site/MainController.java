@@ -1,8 +1,10 @@
 package my.org.site;
 
+import my.org.site.server.JClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,24 +19,24 @@ import java.util.Scanner;
 public class MainController {
     private static List<FindInLog> persons = new ArrayList();
 
-//    static {
-//        persons.add(new Person("Bill", "Gates"));
-//        persons.add(new Person("Steve", "Jobs"));
-//    }
-
-    // Инъетировать (inject) из application.properties.
     @Value("${welcome.message}")
     private String message;
 
     @Value("${error.message}")
     private String errorMessage;
 
-//    @Value("${path.message}")
-//    private String path;
+//    @Value("${server.port1}")
+//    private  static int PORT ;
 
+
+
+
+    /*новы  способ  @GetMapping(value = { "/", "/index" } )*/
 
     @RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
     public String index(Model model) {
+        JClient jClient = new JClient();
+        model.addAttribute("jClient", jClient);
 
         model.addAttribute("message", message);
 

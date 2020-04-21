@@ -1,20 +1,30 @@
 package my.org.site.server;
 
+import my.org.site.MainController;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
+import javax.annotation.PostConstruct;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-@Controller
+@Component
 public class Server {
     @Value("${server.port1}")
-    private int PORT ;
-    @Bean
+    private  static int port ;
+
+
+
+
+   // private int port = 8181 /*MainController.PORT*/;
+@Bean(initMethod = "${server.port1}")
     public  void startServer() throws IOException {
-        ServerSocket s = new ServerSocket(PORT);
+
+        System.out.println("port " + port);
+        ServerSocket s = new ServerSocket(port);
         System.out.println("Started: " + s);
         try {
             // Блокирует до тех пор, пока не возникнет соединение:
