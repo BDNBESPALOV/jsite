@@ -1,5 +1,9 @@
 package my.org.site;
 
+import my.org.site.server.EchoMultiServer;
+import my.org.site.server.JClient;
+import my.org.site.server.JServer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -21,6 +26,10 @@ public class MainController {
 //        persons.add(new Person("Bill", "Gates"));
 //        persons.add(new Person("Steve", "Jobs"));
 //    }
+//    @Autowired
+//    JServer jServer;
+    @Autowired
+    EchoMultiServer echoMultiServer;
 
     // Инъетировать (inject) из application.properties.
     @Value("${welcome.message}")
@@ -35,58 +44,43 @@ public class MainController {
 
     @RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
     public String index(Model model) {
-
+        JClient jClient = new JClient();
+        model.addAttribute("jClient", jClient);
         model.addAttribute("message", message);
-
+        return "index";
+    }
+        @RequestMapping(value = { "/", "/index" }, method = RequestMethod.POST)
+    public String findInLog(Model model, //
+                            @ModelAttribute("jClient") JClient jClient
+    )  {
+        String command = jClient.getCommand();
+//            try {
+//                jServer.startServer(command);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+            try {
+                echoMultiServer.start(8181);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println("command:  "+command);
         return "index";
     }
 
+
+
     @RequestMapping(value = { "/personList" }, method = RequestMethod.GET)
     public String personList(Model model) {
-
         model.addAttribute("persons", persons);
-
         return "personList";
     }
-
-//    @RequestMapping(value = { "/addPerson" }, method = RequestMethod.GET)
-//    public String addPersonForm(Model model) {
-//
-//        PersonForm personForm = new PersonForm();
-//        model.addAttribute("personForm", personForm);
-//
-//
-//        return "addPerson";
-//    }
-//
-//    @RequestMapping(value = { "/addPerson" }, method = RequestMethod.POST)
-//    public String addPersonSave(Model model, //
-//                                @ModelAttribute("personForm") PersonForm personForm) {
-//
-//        String firstName = personForm.getFirstName();
-//        String lastName = personForm.getLastName();
-//        System.out.println("----------> "+firstName);
-//        System.out.println("----------> "+lastName);
-//
-//        if (firstName != null && firstName.length() > 0 //
-//                && lastName != null && lastName.length() > 0) {
-//            Person newPerson = new Person(firstName, lastName);
-//           // persons.add(new Person);
-//
-//            return "redirect:/personList";
-//        }
-//        String error = "First Name & Last Name is required!";
-//        model.addAttribute("errorMessage", error);
-//        return "addPerson";
-//    }
-
 
 
     @RequestMapping(value = { "/formFindLog" }, method = RequestMethod.GET)
     public String addfindInLog(Model model) {
         FindInLog findInLog = new FindInLog();
         model.addAttribute("findInLog", findInLog);
-
         return "formFindLog";
     }
 
@@ -94,7 +88,6 @@ public class MainController {
     public String findInLog(Model model, //
                                 @ModelAttribute("findInLog") FindInLog findInLog
     )  {
-
         String path = findInLog.getPath();
         String name = findInLog.getLogFilter();
 

@@ -23,7 +23,7 @@
     <fieldset>
         <legend>Command console</legend>
         <form name="person" action="" method="POST">
-            Command: <@spring.formInput "JClient.command" "" "text"/>    <br/>
+            Command: <@spring.formInput "jClient.command" "" "text"/>    <br/>
             <input type="submit" value="Create" />
         </form>
     </fieldset>

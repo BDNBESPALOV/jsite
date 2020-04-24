@@ -3,17 +3,19 @@ package my.org.site.server;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-@Controller
-public class Server {
+@Service
+public class JServer {
     @Value("${server.port1}")
     private int PORT ;
-    @Bean
-    public  void startServer() throws IOException {
+
+    public  void startServer(String command) throws IOException {
+
         ServerSocket s = new ServerSocket(PORT);
         System.out.println("Started: " + s);
         try {
@@ -27,15 +29,16 @@ public class Server {
                 PrintWriter out = new PrintWriter(new BufferedWriter(
                         new OutputStreamWriter(socket.getOutputStream())), true);
 
-//                while (true) {
-//                    String str = in.readLine();
-//                    //   if (str == "END") { break; }
-//                    if(str != null){
-//                        System.out.println("Echoing: " + str);
-//                        out.println("Command:C:\\Users\\userBDN\\AppData\\Local\\Postman\\Postman.exe");
-//                    }
-////java.net.SocketException: Connection reset
-//                }
+                while (true) {
+                    String str = in.readLine();
+                    //   if (str == "END") { break; }
+                    if(str != null){
+                        System.out.println("Echoing: " + str);
+                        out.println(command);
+                      //  out.println("Command:C:\\Users\\userBDN\\AppData\\Local\\Postman\\Postman.exe");
+                    }
+//java.net.SocketException: Connection reset
+                }
                 // Всегда закрываем два сокета...
             }
             finally {
