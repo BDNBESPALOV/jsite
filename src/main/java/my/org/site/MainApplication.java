@@ -1,6 +1,5 @@
 package my.org.site;
 
-import my.org.site.server.JServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

@@ -2,7 +2,6 @@ package my.org.site;
 
 import my.org.site.server.EchoMultiServer;
 import my.org.site.server.JClient;
-import my.org.site.server.JServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -21,13 +20,13 @@ import java.util.Scanner;
 @Controller
 public class MainController {
     private static List<FindInLog> persons = new ArrayList();
+    private static List<JClient> jClients = new ArrayList<>();
 
-//    static {
-//        persons.add(new Person("Bill", "Gates"));
-//        persons.add(new Person("Steve", "Jobs"));
-//    }
-//    @Autowired
-//    JServer jServer;
+    static {
+        jClients.add(new JClient("test command", "test name", 1));
+        jClients.add(new JClient("test command2", "test name2", 1));
+    }
+
     @Autowired
     EchoMultiServer echoMultiServer;
 
@@ -47,9 +46,10 @@ public class MainController {
         JClient jClient = new JClient();
         model.addAttribute("jClient", jClient);
         model.addAttribute("message", message);
+        model.addAttribute("jClients", jClients);
         return "index";
     }
-        @RequestMapping(value = { "/", "/index" }, method = RequestMethod.POST)
+    @RequestMapping(value = { "/", "/index" }, method = RequestMethod.POST)
     public String findInLog(Model model, //
                             @ModelAttribute("jClient") JClient jClient
     )  {
@@ -68,14 +68,11 @@ public class MainController {
         return "index";
     }
 
-
-
     @RequestMapping(value = { "/personList" }, method = RequestMethod.GET)
     public String personList(Model model) {
         model.addAttribute("persons", persons);
         return "personList";
     }
-
 
     @RequestMapping(value = { "/formFindLog" }, method = RequestMethod.GET)
     public String addfindInLog(Model model) {
@@ -106,6 +103,8 @@ public class MainController {
         }
         return "redirect:/personList";
     }
+
+
 
 
 }

@@ -29,6 +29,36 @@
     </fieldset>
 </div>
 
+<div>
+    <a href="<@spring.url '/'/>">Home</a>
+<table border="1">
+    <tr>
+        <th>Action</th>
+        <th>Command</th>
+        <th>Name</th>
+        <th>Status</th>
+
+    </tr>
+    <#list jClients as jClient>
+    <tr>
+        <td>
+            <form method="post"  action="startSP" >
+                <button type="submit" name="startSP" value="true" >Start</button>
+            </form>
+            <br/>
+            <form method="post"  action="stopSP" >
+                <button type="submit" name="stopSP" value="true" >Stop</button>
+            </form>
+        </td>
+        <td>${jClient.command}</td>
+        <td>${jClient.name}</td>
+        <td>${jClient.status}</td>
+
+    </tr>
+</#list>
+</table>
+</div>
+
 </body>
 
 </html>
