@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -23,16 +24,16 @@ public class MainController {
     private static List<FindInLog> persons = new ArrayList();
     public static HashMap<String,JClient> map = new HashMap<>();
 
-//    static {
-//        map.put("sp1",new JClient("test command", "test name", 1));
-//        map.put("sp2",new JClient("test command", "test name", 1));
-//    }
 
     @Value("${welcome.message}")
     private String message;
 
     @Value("${error.message}")
     private String errorMessage;
+
+    private static Socket clientSocket;
+    private static PrintWriter out;
+    private static BufferedReader in;
 
 //    @Autowired
 //    EMServer echoMultiServer;
@@ -56,12 +57,12 @@ public class MainController {
     }
 
     private static class EchoClientHandler extends Thread {
-        private Socket clientSocket;
-        private PrintWriter out;
-        private BufferedReader in;
+//        private Socket clientSocket;
+//        private PrintWriter out;
+//        private BufferedReader in;
 
         public EchoClientHandler(Socket socket) {
-            this.clientSocket = socket;
+            MainController.clientSocket = socket;
         }
 
         @SneakyThrows
@@ -69,32 +70,39 @@ public class MainController {
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(
                     new InputStreamReader(clientSocket.getInputStream()));
+            try {
+                String inputLine;
+                while ((inputLine = in.readLine()) != null) {
 
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
 
+                    if (inputLine.contains("client")) {
+                        System.out.println(inputLine);
+                        inputLine = inputLine.substring(6, inputLine.length());
+                        map.put(inputLine, new JClient(inputLine, inputLine, new Date().toString()));
+                    } else if (inputLine.contains("Disconnect ")) {
+                        System.out.println(inputLine);
+                        inputLine = inputLine.substring(11, inputLine.length());
+                        map.remove(inputLine);
+                    }
 
-                if (inputLine.contains("client"))   {
-                    System.out.println("contains(Command:) tempMessage: "+inputLine);
-                    inputLine = inputLine.substring(6,inputLine.length());
-                    System.out.println("tempMessage.substring(0,7): "+inputLine);
-                    map.put(inputLine, new JClient(inputLine,inputLine,new Date().toString()));
+                    System.out.println("inputLine: " + inputLine);
+                    if (".".equals(inputLine)) {
+                        out.println("bye");
+                        break;
+                    }
 
+                    out.println(inputLine);
                 }
+            } catch (SocketException e){}
 
-                System.out.println("inputLine: " + inputLine);
-                if (".".equals(inputLine)) {
-                    out.println("bye");
-                    break;
-                }
 
-                out.println(inputLine);
-            }
+
 
             in.close();
             out.close();
             clientSocket.close();
         }
+
     }
 
 
@@ -139,7 +147,6 @@ public class MainController {
     )  {
         String path = findInLog.getPath();
         String name = findInLog.getLogFilter();
-
         try {
             FileReader  file = new FileReader(path);
             Scanner scanner = new Scanner(file);
@@ -187,6 +194,19 @@ public class MainController {
         return "redirect:/";
     }
 
+
+    @PostMapping("startSP")
+    public  String startSP(){
+        System.out.println("startSP");
+        out.println("startSP");
+        return "redirect:/";
+    }
+    @PostMapping("stopSP")
+    public  String stopSP(){
+        System.out.println("stopSP");
+        out.println("stopSP");
+        return "redirect:/";
+    }
 
 
 
