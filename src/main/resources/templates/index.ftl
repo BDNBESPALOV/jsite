@@ -29,6 +29,14 @@
     </fieldset>
 </div>
 
+<form method="post"  action="startServer" >
+    <button type="submit" name="startServer" value="true" >StartServer</button>
+</form>
+<br/>
+<form method="post"  action="stopServer" >
+    <button type="submit" name="stopServer" value="true" >StopServer</button>
+</form>
+
 <div>
     <a href="<@spring.url '/'/>">Home</a>
 <table border="1">
@@ -39,9 +47,11 @@
         <th>Status</th>
 
     </tr>
-    <#list jClients as jClient>
+    <#list map?keys as key>
+    <#assign value=map[key] />
     <tr>
         <td>
+            <br/>
             <form method="post"  action="startSP" >
                 <button type="submit" name="startSP" value="true" >Start</button>
             </form>
@@ -50,13 +60,14 @@
                 <button type="submit" name="stopSP" value="true" >Stop</button>
             </form>
         </td>
-        <td>${jClient.command}</td>
-        <td>${jClient.name}</td>
-        <td>${jClient.status}</td>
+        <td>${value.command}</td>
+        <td>${value.name}</td>
+        <td>${value.status}</td>
 
     </tr>
 </#list>
 </table>
+
 </div>
 
 </body>

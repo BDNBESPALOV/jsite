@@ -2,6 +2,7 @@ package my.org.site.server;
 
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -10,16 +11,23 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.HashMap;
 
-@Service
-public class EchoMultiServer {
+@Controller
+public class EMServer {
         private ServerSocket serverSocket;
+        public static HashMap<String,JClient> map = new HashMap<>();
 
         public void start(int port) throws IOException{
             serverSocket = new ServerSocket(port);
             System.out.println("Started: " + serverSocket);
-            while (true)
-                new EchoClientHandler(serverSocket.accept()).start();
+            try {
+                while (true)
+                    new EchoClientHandler(serverSocket.accept()).start();
+            }catch (SocketException e){
+
+            }
         }
 
         public void stop() throws IOException {
@@ -43,6 +51,16 @@ public class EchoMultiServer {
 
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
+
+
+//            if (inputLine.contains("client"))   {
+//                    System.out.println("contains(Command:) tempMessage: "+inputLine);
+//                    inputLine = inputLine.substring(6,inputLine.length());
+//                    System.out.println("tempMessage.substring(0,7): "+inputLine);
+//                    map.put(inputLine, new JClient(inputLine,inputLine,1));
+//
+//                }
+
                     System.out.println("inputLine: " + inputLine);
                     if (".".equals(inputLine)) {
                         out.println("bye");
@@ -57,11 +75,12 @@ public class EchoMultiServer {
                 clientSocket.close();
             }
         }
-        public static void main(String ... args){
-            try {
-                new EchoMultiServer().start(8181);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        public static void main(String ... args){
+//            try {
+//                new EchoMultiServer().start(8181);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
 }

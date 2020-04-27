@@ -1,6 +1,6 @@
 package my.org.site;
 
-import my.org.site.server.EchoMultiServer;
+import my.org.site.server.EMServer;
 import my.org.site.server.JClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,21 +14,18 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 @Controller
 public class MainController {
     private static List<FindInLog> persons = new ArrayList();
-    private static List<JClient> jClients = new ArrayList<>();
 
-    static {
-        jClients.add(new JClient("test command", "test name", 1));
-        jClients.add(new JClient("test command2", "test name2", 1));
-    }
+
 
     @Autowired
-    EchoMultiServer echoMultiServer;
+    EMServer echoMultiServer;
 
     // Инъетировать (inject) из application.properties.
     @Value("${welcome.message}")
@@ -46,7 +43,6 @@ public class MainController {
         JClient jClient = new JClient();
         model.addAttribute("jClient", jClient);
         model.addAttribute("message", message);
-        model.addAttribute("jClients", jClients);
         return "index";
     }
     @RequestMapping(value = { "/", "/index" }, method = RequestMethod.POST)
@@ -54,11 +50,6 @@ public class MainController {
                             @ModelAttribute("jClient") JClient jClient
     )  {
         String command = jClient.getCommand();
-//            try {
-//                jServer.startServer(command);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
             try {
                 echoMultiServer.start(8181);
             } catch (IOException e) {
