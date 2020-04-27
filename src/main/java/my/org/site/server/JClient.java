@@ -1,24 +1,28 @@
 package my.org.site.server;
 
+import lombok.Data;
+
+import java.util.Date;
+
 public class JClient {
-    private int status;
+    private String date;
     private String name;
     private String command;
 
     public JClient(){}
 
-    public JClient(String command, String name, int status) {
-        this.status = status;
+    public JClient(String command, String name, String date) {
+        this.date = date;
         this.name = name;
         this.command = command;
     }
 
-    public int getStatus() {
-        return status;
+    public String getStatus() {
+        return date;
     }
 
     public void setStatus(int status) {
-        this.status = status;
+        this.date = date;
     }
 
     public String getName() {

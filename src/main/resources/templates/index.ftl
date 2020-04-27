@@ -16,18 +16,18 @@
 </#if>
 
 
-<a href="<@spring.url '/personList'/>">Person List</a>
-<a href="<@spring.url '/formFindLog'/>">Path </a>
+<!--<a href="<@spring.url '/personList'/>">Person List</a>-->
+<!--<a href="<@spring.url '/formFindLog'/>">Path </a>-->
 
-<div>
-    <fieldset>
-        <legend>Command console</legend>
-        <form name="person" action="" method="POST">
-            Command: <@spring.formInput "jClient.command" "" "text"/>    <br/>
-            <input type="submit" value="Create" />
-        </form>
-    </fieldset>
-</div>
+<!--<div>-->
+<!--    <fieldset>-->
+<!--        <legend>Command console</legend>-->
+<!--        <form name="person" action="" method="POST">-->
+<!--            Command: <@spring.formInput "jClient.command" "" "text"/>    <br/>-->
+<!--            <input type="submit" value="Create" />-->
+<!--        </form>-->
+<!--    </fieldset>-->
+<!--</div>-->
 
 <form method="post"  action="startServer" >
     <button type="submit" name="startServer" value="true" >StartServer</button>
@@ -44,7 +44,7 @@
         <th>Action</th>
         <th>Command</th>
         <th>Name</th>
-        <th>Status</th>
+        <th>Время подключения</th>
 
     </tr>
     <#list map?keys as key>
