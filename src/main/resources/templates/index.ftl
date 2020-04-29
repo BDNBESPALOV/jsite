@@ -52,17 +52,17 @@
     <tr>
         <td>
             <br/>
-            <form method="post"  action="startSP" >
-                <button type="submit" name="startSP" value="true" >Start</button>
+            <form method="post"  action="startSP" id="5555">
+                <button type="submit" name="startSP" value=${value.name} >Start</button>
             </form>
             <br/>
             <form method="post"  action="stopSP" >
-                <button type="submit" name="stopSP" value="true" >Stop</button>
+                <button type="submit" name="stopSP" value=${value.name} >Stop</button>
             </form>
         </td>
         <td>${value.command}</td>
         <td>${value.name}</td>
-        <td>${value.status}</td>
+        <td>${value.date}</td>
 
     </tr>
 </#list>

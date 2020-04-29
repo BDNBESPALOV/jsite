@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -24,6 +21,10 @@ public class MainController {
     private static List<FindInLog> persons = new ArrayList();
     public static HashMap<String,JClient> map = new HashMap<>();
 
+//    static{
+//        map.put("",new JClient("","","new Date()"));
+//    }
+
 
     @Value("${welcome.message}")
     private String message;
@@ -31,7 +32,7 @@ public class MainController {
     @Value("${error.message}")
     private String errorMessage;
 
-    private static Socket clientSocket;
+    private static List<Socket> clientSocket;
     private static PrintWriter out;
     private static BufferedReader in;
 
@@ -43,7 +44,8 @@ public class MainController {
 
     public void start(int port) throws IOException{
         serverSocket = new ServerSocket(port);
-        System.out.println("Started: " + serverSocket);
+
+        System.out.println("serverSocketStarted: " + serverSocket);
         try {
             while (true)
                 new MainController.EchoClientHandler(serverSocket.accept()).start();
@@ -54,15 +56,22 @@ public class MainController {
 
     public void stop() throws IOException {
         serverSocket.close();
+
     }
 
     private static class EchoClientHandler extends Thread {
-//        private Socket clientSocket;
+        private Socket clientSocket;
 //        private PrintWriter out;
 //        private BufferedReader in;
 
+
         public EchoClientHandler(Socket socket) {
-            MainController.clientSocket = socket;
+//            socketSize=MainController.clientSocket.size();
+//            MainController.clientSocket.add(socket);
+//            client = MainController.clientSocket.get(socketSize);
+            clientSocket = socket;
+            System.out.println("ClientSocketStarted: " + socket);
+
         }
 
         @SneakyThrows
@@ -78,7 +87,7 @@ public class MainController {
                     if (inputLine.contains("client")) {
                         System.out.println(inputLine);
                         inputLine = inputLine.substring(6, inputLine.length());
-                        map.put(inputLine, new JClient(inputLine, inputLine, new Date().toString()));
+                        map.put(inputLine, new JClient(inputLine, inputLine, new Date().toString(),clientSocket));
                     } else if (inputLine.contains("Disconnect ")) {
                         System.out.println(inputLine);
                         inputLine = inputLine.substring(11, inputLine.length());
@@ -94,9 +103,6 @@ public class MainController {
                     out.println(inputLine);
                 }
             } catch (SocketException e){}
-
-
-
 
             in.close();
             out.close();
@@ -118,13 +124,7 @@ public class MainController {
     public String findInLog(Model model, //
                             @ModelAttribute("jClient") JClient jClient
     )  {
-//        String command = jClient.getCommand();
-//            try {
-//                echoMultiServer.start(8181);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            System.out.println("command:  "+command);
+
         return "index";
     }
 
@@ -196,15 +196,19 @@ public class MainController {
 
 
     @PostMapping("startSP")
-    public  String startSP(){
+    public  String startSP(String startSP) throws IOException {
+
         System.out.println("startSP");
-        out.println("startSP");
+        System.out.println(startSP+"-----");
+         new PrintWriter(map.get(startSP).getClientSocket().getOutputStream(), true).println("startSP");
+        //out.println("startSP");
         return "redirect:/";
     }
     @PostMapping("stopSP")
-    public  String stopSP(){
+    public  String stopSP(String stopSP) throws IOException {
         System.out.println("stopSP");
-        out.println("stopSP");
+        new PrintWriter(map.get(stopSP).getClientSocket().getOutputStream(), true).println("stopSP");
+
         return "redirect:/";
     }
 
