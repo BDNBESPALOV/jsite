@@ -197,17 +197,23 @@ public class MainController {
 
     @PostMapping("startSP")
     public  String startSP(String startSP) throws IOException {
-
         System.out.println("startSP");
-        System.out.println(startSP+"-----");
-         new PrintWriter(map.get(startSP).getClientSocket().getOutputStream(), true).println("startSP");
-        //out.println("startSP");
+         new PrintWriter(map.get(startSP).getClientSocket()
+                 .getOutputStream(), true).println("Command:/u01/azk/SP/start.sh");
         return "redirect:/";
     }
     @PostMapping("stopSP")
     public  String stopSP(String stopSP) throws IOException {
         System.out.println("stopSP");
-        new PrintWriter(map.get(stopSP).getClientSocket().getOutputStream(), true).println("stopSP");
+        new PrintWriter(map.get(stopSP).getClientSocket()
+                .getOutputStream(), true).println("Command:/u01/azk/SP/stop.sh");
+        return "redirect:/";
+    }
+    @PostMapping("countJavaProcess")
+    public  String countJavaProcess(String countJavaProcess) throws IOException {
+        System.out.println("countJavaProcess");
+        new PrintWriter(map.get(countJavaProcess).getClientSocket()
+                .getOutputStream(), true).println("monitoringProcess:/u01/azk/SP/countJP.sh");
 
         return "redirect:/";
     }

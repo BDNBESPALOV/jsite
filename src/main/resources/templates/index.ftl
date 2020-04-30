@@ -59,6 +59,10 @@
             <form method="post"  action="stopSP" >
                 <button type="submit" name="stopSP" value=${value.name} >Stop</button>
             </form>
+            <br/>
+            <form method="post"  action="countJavaProcess" >
+                <button type="submit" name="countJavaProcess" value=${value.name} >JavaProcess</button>
+            </form>
         </td>
         <td>${value.command}</td>
         <td>${value.name}</td>
