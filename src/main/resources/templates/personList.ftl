@@ -25,6 +25,23 @@
         </tr>
     </#list>
     </table>
+
+
+    <table border="1">
+        <tr>
+            <th>Ключ</th>
+            <th>Значение</th>
+
+        </tr>
+        <#list psMap?keys as key>
+        <#assign value=map[key] />
+        <tr>
+            <td>${key}</td>
+            <td>${value}</td>
+        </tr>
+    </#list>
+    </table>
+
 </div>
 </body>
 </html>

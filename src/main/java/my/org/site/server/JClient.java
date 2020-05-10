@@ -1,15 +1,17 @@
 package my.org.site.server;
 
-import lombok.Data;
-
 import java.net.Socket;
-import java.util.Date;
+import java.sql.Struct;
+import java.util.HashMap;
 
 public class JClient {
     private Socket clientSocket;
     private String date;
     private String name;
     private String command;
+    private HashMap<String,String> process ;
+
+    private int size;
 
     public JClient(){}
 
@@ -18,6 +20,7 @@ public class JClient {
         this.name = name;
         this.command = command;
         this.clientSocket = clientSocket;
+        this.process = new HashMap<>();
     }
     public Socket getClientSocket() {
         return clientSocket;
@@ -49,6 +52,27 @@ public class JClient {
 
     public void setCommand(String command){
         this.command = command;
+    }
+
+    public HashMap<String, String> getProcess() {
+        return process;
+    }
+
+    public void addProcess(String key, String value) {
+        this.process.put(key,value);
+        this.size = this.process.size();
+    }
+    public void removeProcess(String key) {
+        this.process.remove(key);
+        this.size = this.process.size();
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
 

@@ -4,51 +4,32 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>Welcome freemarker</title>
-    <link rel="stylesheet"
-          type="text/css" href="<@spring.url '/css/style.css'/>"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Server</title>
 </head>
 
 <body>
-<h1>Welcome freemarker</h1>
-<#if message??>
-<h2>${message}</h2>
-</#if>
-
-
-<!--<a href="<@spring.url '/personList'/>">Person List</a>-->
-<!--<a href="<@spring.url '/formFindLog'/>">Path </a>-->
-
-<!--<div>-->
-<!--    <fieldset>-->
-<!--        <legend>Command console</legend>-->
-<!--        <form name="person" action="" method="POST">-->
-<!--            Command: <@spring.formInput "jClient.command" "" "text"/>    <br/>-->
-<!--            <input type="submit" value="Create" />-->
-<!--        </form>-->
-<!--    </fieldset>-->
-<!--</div>-->
-
-<form method="post"  action="startServer" >
-    <button type="submit" name="startServer" value="true" >StartServer</button>
-</form>
-<br/>
-<form method="post"  action="stopServer" >
-    <button type="submit" name="stopServer" value="true" >StopServer</button>
-</form>
+<#include "navbar.ftl">
 
 <div>
-    <a href="<@spring.url '/'/>">Home</a>
-<table border="1">
+
+<table class="table table-striped table-dark">
     <tr>
-        <th>Action</th>
-        <th>Command</th>
-        <th>Name</th>
-        <th>Время подключения</th>
+
+        <th scope="col">
+            <form method="post"  action="refresh" >
+                <button type="submit" name="refresh"  >Обновить</button>
+            </form>
+        </th>
+        <th scope="col">Активные java процессы</th>
+        <th scope="col">Имя клиента</th>
+        <th scope="col">Время подключения</th>
 
     </tr>
-    <#list map?keys as key>
-    <#assign value=map[key] />
+    <#list jClientMap?keys as key>
+    <#assign value=jClientMap[key] />
     <tr>
         <td>
             <br/>
@@ -64,15 +45,24 @@
                 <button type="submit" name="countJavaProcess" value=${value.name} >JavaProcess</button>
             </form>
         </td>
-        <td>${value.command}</td>
+        <td>
+            <form method="post" action="clientName">
+                <button type="submit"  name="cName" value=${value.name} >${value.size}</button>
+            </form>
+        </td>
         <td>${value.name}</td>
         <td>${value.date}</td>
-
     </tr>
 </#list>
 </table>
 
 </div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
 
 </body>
 
