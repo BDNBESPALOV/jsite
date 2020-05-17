@@ -27,6 +27,10 @@
                     <button class="nav-link " type="submit" name="stopServer" value="true" >StopServer</button>
                 </form>
             </li>
+            <li class="nav-item">
+            <a class="nav-link disabled" href="/updater">Установка патча</a>
+            </li>
+
 
         </ul>
         <form class="form-inline my-2 my-lg-0">

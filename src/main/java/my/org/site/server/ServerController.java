@@ -1,10 +1,7 @@
-package my.org.site;
+package my.org.site.server;
 
 import lombok.SneakyThrows;
-import my.org.site.server.JClient;
-import my.org.site.server.ParserLine;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -67,9 +64,6 @@ public class ServerController {
 
         }
 
-        public EchoClientHandler() {
-
-        }
 
         @SneakyThrows
         public void run()  {
@@ -251,5 +245,7 @@ public class ServerController {
         }
         return "redirect:/";
     }
+
+
 
 }

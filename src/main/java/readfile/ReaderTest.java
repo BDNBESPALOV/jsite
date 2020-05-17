@@ -1,35 +1,30 @@
 package readfile;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Date;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 public class ReaderTest {
     public static void main(String ... args) throws IOException {
-//        try {
-//            FileReader file = new FileReader("");
-//            Scanner scanner = new Scanner(file);
-//            while(scanner.hasNextLine()){
-//                String s =scanner.nextLine();
-//                if(s.contains("samba")){
-//                    System.out.println(s);
-//                }
-//            }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-    int i = 0;
-//    URL url = new URL("https://google.com/");
-//    URLConnection urlConnection = url.openConnection();
-//    System.out.println(new Date(urlConnection.getLastModified()));
-//    while( (i = urlConnection.getInputStream().read()) != -1){
-//        System.out.print((char) i);
-//    }
-        System.out.println(++i);
-        System.out.println(i++);
-        System.out.println(i);
+//        BigDecimal t = BigDecimal.valueOf(1024);
+//        BigDecimal f = new BigDecimal(131072);
+//        f = f.divide(t).divide(t);
 
+//        BigDecimal s = new BigDecimal(130449280);
+
+
+        double e = (131072/1024);
+        e = e/1024;
+
+        double s = (130449280/1024);
+        int si = (int) (s/1024);
+
+        double m = e/si;
+        double mi = (m*100);
+        
+        System.out.println(e);
+        System.out.println(si);
+        System.out.println(m);
+        System.out.println(mi);
     }
 }

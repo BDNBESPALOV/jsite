@@ -1,4 +1,4 @@
-package my.org.site;
+package my.org.site.server;
 
 
 import org.springframework.stereotype.Controller;

@@ -1,10 +1,10 @@
-package my.org.site;
+package my.org.site.server;
 
 public class FindInLog {
     private String path;
     private String logFilter;
 
-    FindInLog(){}
+    public FindInLog(){}
 
     public FindInLog(String name, String s) {
         this.path = name;
