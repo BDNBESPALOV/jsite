@@ -12,6 +12,7 @@
 
     if ( (${valueNow} < ${size}) || (${size} == 0)) {
         $('#contentFile').load(document.URL +  ' #contentFile');
+        $('#successChecked').load(document.URL +  ' #successChecked');
      }
 
         }, 2000);
@@ -53,13 +54,16 @@
         <tr>
             <th scope="col">Результат</th>
             <th scope="col">Процесс</th>
+            <th scope="col>">Действие</tr>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <th >
-                <#if (valueNow >= size) && (size > 0) >
-                <IMG src="success.png">
+            <th id="successChecked">
+                <#if checked >
+                <IMG  src="success.png">
+                <#else>
+                <IMG src="upload.png">
                 </#if>
             </th>
             <td>Загрузка патча на сервер контроллера
@@ -69,18 +73,50 @@
                     </div>
                 </div>
             </td>
+            <td>
+                <form method="post" action="clearUpload">
+                    <button type="submit"  name="clearUpload"  >Остановить </button>
+                </form>
+            </td>
         </tr>
         <tr>
             <th ><IMG src="success.png"></th>
             <td>Jacob</td>
+            <td>
+                <form method="post" action="clearUpload">
+                    <button type="submit"  name="clearUpload"  >Остановить </button>
+                </form>
+            </td>
         </tr>
         <tr>
             <th ><IMG src="nnnn.png"></th>
             <td>Jacobnnnnnnnnn</td>
+            <td>
+                <form method="post" action="clearUpload">
+                    <button type="submit"  name="clearUpload"  >Остановить </button>
+                </form>
+            </td>
         </tr>
 
         </tbody>
     </table>
+</div>
+
+<div class="container">
+    <h2>Alert Links</h2>
+    <p>Add the alert-link class to any links inside the alert box to create "matching colored links".</p>
+    <div class="alert alert-success">
+        <strong>Success!</strong> You should <a href="#" class="alert-link">read this message</a>.
+    </div>
+    <div class="alert alert-info">
+        <strong>Info!</strong> You should <a href="#" class="alert-link">read this message</a>.
+    </div>
+    <div class="alert alert-warning">
+        <strong>Warning!</strong> You should <a href="#" class="alert-link">read this message</a>.
+    </div>
+    <div class="alert alert-danger">
+        <strong>Danger!</strong> You should <a href="#" class="alert-link">read this message</a>.
+    </div>
 </div>
 
 

@@ -7,13 +7,32 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
 import java.nio.file.Files;
+import java.util.zip.Adler32;
+import java.util.zip.CheckedInputStream;
 
 public class UpdateModel {
-    private String login = "f_belgorod";
-    private String password = "E666T5fZ";
+    private final String login = "f_belgorod";
+
+    private final String password = "E666T5fZ";
+//    private final String outFile = "A:\\temp\\patch.zip";
+    private final String outFile = "D:\\TEMP\\patch.zip";
+
     private static int size = 0;
+
     private static double valueNow = 0;
+
     private static int part = 0;
+
+    private InputStream inputStream = null;
+
+    private static boolean checked = false;
+
+
+
+
+    public static boolean getChecked() {
+        return checked;
+    }
 
     public static double getPart() {
         return part;
@@ -28,48 +47,70 @@ public class UpdateModel {
     }
 
     public void parsePath(String path){
-        InputStream inputStream = null;
+
         if(path.contains("http")){
+            httpPath(path);
+        }
+
+    }
+
+    public void closeUpload(){
+        try {
+            inputStream.close();
+            Files.delete(new File(outFile).toPath());
+            size = 0;
+            valueNow = 0;
+            part = 0;
+            checked = false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void httpPath(String path){
+
+        try {
+            URL url = new URL(path);
+            Authenticator.setDefault(new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(login, password.toCharArray());
+                }
+            });
+
+            URLConnection connection = url.openConnection();
+
+            setSize(connection.getContentLength());
+
+            System.out.println(connection.getContentLength());
+            inputStream = connection.getInputStream();
+            File file = new File(outFile);
+
+            setValueNow(file);
+
+            Files.copy(inputStream, file.toPath());
+            setChecked(file,connection.getContentLength());
+            System.out.println("size       : " + checked);
+            System.out.println("file.length: " + file.length());
+
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
             try {
-                URL url = new URL(path);
-                Authenticator.setDefault(new Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(login, password.toCharArray());
-                    }
-                });
-                URLConnection connection = url.openConnection();
-
-                setSize(connection.getContentLength());
-
-                System.out.println(connection.getContentLength());
-                inputStream = connection.getInputStream();
-                File file = new File("A:\\temp\\patch.zip");
-                setValueNow(file);
-                Files.copy(inputStream, file.toPath());
-
-
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+                inputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            finally {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
         }
-        
-
-  }
+    }
 
     private static void setSize(int size) {
-        double s = size/1024;
+        double s = size / 1024;
         UpdateModel.size = (int) (s/1024);
     }
 
@@ -97,13 +138,19 @@ public class UpdateModel {
                     }
                     while (size > valueNow) ;
                 }).start();
-
-
     }
 
     private static void setPart(int size, double valueNow) {
         double m = valueNow / size;
         UpdateModel.part = (int) (m * 100);
+    }
+
+    public void setChecked(File file, int connectionSize ) {
+        if(file.length() == connectionSize){
+            this.checked = true;
+        } else {
+            this.checked = false;
+        }
     }
 
 
