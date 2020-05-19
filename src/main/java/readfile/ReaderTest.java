@@ -13,14 +13,13 @@ public class ReaderTest {
 //        BigDecimal s = new BigDecimal(130449280);
 
 
-        double e = (131072/1024);
-        e = e/1024;
-
-        double s = (130449280/1024);
+        double e = (8910720 / 1024);
+        e = e / 1024;
+        double s = (130449280 / 1024);
         int si = (int) (s/1024);
 
         double m = e/si;
-        double mi = (m*100);
+        int mi = (int) (m*100);
         
         System.out.println(e);
         System.out.println(si);

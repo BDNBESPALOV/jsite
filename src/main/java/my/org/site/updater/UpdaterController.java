@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class UpdaterController {
 
+    @RequestMapping(value = { "/center" }, method = RequestMethod.GET)
+    public String te(Model model){
+        model.addAttribute("valueNow", UpdateModel.getValueNow());
+        return "updater";
+    }
+
 
     @RequestMapping(value = { "/updater" }, method = RequestMethod.GET)
     public String updater(Model model) {

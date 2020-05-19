@@ -12,10 +12,10 @@ public class UpdateModel {
     private String login = "f_belgorod";
     private String password = "E666T5fZ";
     private static int size = 0;
-    private static int valueNow = 0;
+    private static double valueNow = 0;
     private static int part = 0;
 
-    public static int getPart() {
+    public static double getPart() {
         return part;
     }
 
@@ -23,7 +23,7 @@ public class UpdateModel {
         return size;
     }
 
-    public static int getValueNow() {
+    public static double getValueNow() {
         return valueNow;
     }
 
@@ -69,7 +69,8 @@ public class UpdateModel {
   }
 
     private static void setSize(int size) {
-        UpdateModel.size = size;
+        double s = size/1024;
+        UpdateModel.size = (int) (s/1024);
     }
 
     private static void setValueNow(File file) {
@@ -78,7 +79,8 @@ public class UpdateModel {
                     do {
                         if(file.exists()){
                             try {
-                                UpdateModel.valueNow = Files.readAllBytes(file.toPath()).length;
+                                UpdateModel.valueNow = Files.readAllBytes(file.toPath()).length/1024;
+                                UpdateModel.valueNow = UpdateModel.valueNow/1024;
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -87,14 +89,21 @@ public class UpdateModel {
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            part = (valueNow/size) * 100;
-                            System.out.println("file.length " + valueNow + " / " + size + " size "+part+" %");
+
+                           // part = (valueNow/size) * 100;
+                            setPart(getSize(),valueNow);
+                            System.out.println("file.length " + valueNow + " / " + getSize() + " size "+getPart()+" %");
                         }
                     }
                     while (size > valueNow) ;
                 }).start();
 
 
+    }
+
+    private static void setPart(int size, double valueNow) {
+        double m = valueNow / size;
+        UpdateModel.part = (int) (m * 100);
     }
 
 
