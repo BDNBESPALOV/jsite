@@ -12,7 +12,7 @@
 
     if ( (${valueNow} < ${size}) || (${size} == 0)) {
         $('#contentFile').load(document.URL +  ' #contentFile');
-        $('#successChecked').load(document.URL +  ' #successChecked');
+        $('.successChecked').load(document.URL +  ' .successChecked');
      }
 
         }, 2000);
@@ -58,12 +58,10 @@
         </thead>
         <tbody>
         <tr>
-            <th id="successChecked">
-                <#if checked >
-                <IMG  src="success.png">
-                <#else>
-                <IMG src="upload.png">
-                </#if>
+            <th class="successChecked">
+                <#if checked>
+                <IMG src="success.png">
+            </#if>
             </th>
             <td>Загрузка патча на сервер контроллера
                 <div id="contentFile">
@@ -74,7 +72,7 @@
             </td>
             <td>
                 <form method="post" action="clearUpload">
-                    <button type="submit"  name="clearUpload"  >Остановить </button>
+                    <button type="submit"  name="clearUpload"  >Остановить</button>
                 </form>
             </td>
         </tr>
@@ -83,7 +81,7 @@
             <td>Загрузка патча на сервер обновления</td>
             <td>
                 <form method="post" action="clearUpload">
-                    <button type="submit"  name="clearUpload"  >Остановить </button>
+                    <button type="submit"  name="clearUpload"  >Остановить</button>
                 </form>
             </td>
         </tr>
@@ -92,7 +90,7 @@
             <td>Установка SQL</td>
             <td>
                 <form method="post" action="clearUpload">
-                    <button type="submit"  name="clearUpload"  >Остановить </button>
+                    <button type="submit"  name="clearUpload"  >Остановить</button>
                 </form>
             </td>
         </tr>
@@ -101,7 +99,7 @@
             <td>Установка XML</td>
             <td>
                 <form method="post" action="clearUpload">
-                    <button type="submit"  name="clearUpload"  >Остановить </button>
+                    <button type="submit"  name="clearUpload"  >Остановить</button>
                 </form>
             </td>
         </tr>
@@ -110,7 +108,7 @@
             <td>Загрузка патча на все сервера кластера</td>
             <td>
                 <form method="post" action="clearUpload">
-                    <button type="submit"  name="clearUpload"  >Остановить </button>
+                    <button type="submit"  name="clearUpload"  >Остановить</button>
                 </form>
             </td>
         </tr>

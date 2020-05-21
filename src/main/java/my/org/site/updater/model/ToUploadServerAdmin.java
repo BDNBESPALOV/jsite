@@ -12,7 +12,7 @@ public class ToUploadServerAdmin {
 
     private final String password = "E666T5fZ";
 
-    private final String outFile = "D:\\TEMP\\patch.zip";  //private final String outFile = "A:\\temp\\patch.zip";
+    private static String outFile = "D:\\TEMP\\patch.zip";  //private final String outFile = "A:\\temp\\patch.zip";
 
     private static int size = 0;
 
@@ -25,6 +25,9 @@ public class ToUploadServerAdmin {
     private static boolean checked = false;
 
 
+    public static String getOutFile() {
+        return outFile;
+    }
 
     public static boolean getChecked() {
         return checked;
