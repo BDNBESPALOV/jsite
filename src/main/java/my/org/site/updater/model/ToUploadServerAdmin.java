@@ -1,21 +1,18 @@
-package my.org.site.updater;
-
-
+package my.org.site.updater.model;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
 import java.nio.file.Files;
-import java.util.zip.Adler32;
-import java.util.zip.CheckedInputStream;
 
-public class UpdateModel {
+public class ToUploadServerAdmin {
+
     private final String login = "f_belgorod";
 
     private final String password = "E666T5fZ";
-//    private final String outFile = "A:\\temp\\patch.zip";
-    private final String outFile = "D:\\TEMP\\patch.zip";
+
+    private final String outFile = "D:\\TEMP\\patch.zip";  //private final String outFile = "A:\\temp\\patch.zip";
 
     private static int size = 0;
 
@@ -26,7 +23,6 @@ public class UpdateModel {
     private InputStream inputStream = null;
 
     private static boolean checked = false;
-
 
 
 
@@ -46,13 +42,7 @@ public class UpdateModel {
         return valueNow;
     }
 
-    public void parsePath(String path){
 
-        if(path.contains("http")){
-            httpPath(path);
-        }
-
-    }
 
     public void closeUpload(){
         try {
@@ -67,7 +57,7 @@ public class UpdateModel {
         }
     }
 
-    private void httpPath(String path){
+    public void httpPath(String path){
 
         try {
             URL url = new URL(path);
@@ -93,8 +83,6 @@ public class UpdateModel {
             System.out.println("size       : " + checked);
             System.out.println("file.length: " + file.length());
 
-
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -111,7 +99,7 @@ public class UpdateModel {
 
     private static void setSize(int size) {
         double s = size / 1024;
-        UpdateModel.size = (int) (s/1024);
+        ToUploadServerAdmin.size = (int) (s/1024);
     }
 
     private static void setValueNow(File file) {
@@ -120,8 +108,8 @@ public class UpdateModel {
                     do {
                         if(file.exists()){
                             try {
-                                UpdateModel.valueNow = Files.readAllBytes(file.toPath()).length/1024;
-                                UpdateModel.valueNow = UpdateModel.valueNow/1024;
+                                ToUploadServerAdmin.valueNow = Files.readAllBytes(file.toPath()).length/1024;
+                                ToUploadServerAdmin.valueNow = ToUploadServerAdmin.valueNow/1024;
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -142,7 +130,7 @@ public class UpdateModel {
 
     private static void setPart(int size, double valueNow) {
         double m = valueNow / size;
-        UpdateModel.part = (int) (m * 100);
+        ToUploadServerAdmin.part = (int) (m * 100);
     }
 
     public void setChecked(File file, int connectionSize ) {

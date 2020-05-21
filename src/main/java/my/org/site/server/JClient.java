@@ -1,7 +1,6 @@
 package my.org.site.server;
 
 import java.net.Socket;
-import java.sql.Struct;
 import java.util.HashMap;
 
 public class JClient {

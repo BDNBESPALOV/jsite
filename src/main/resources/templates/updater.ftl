@@ -41,7 +41,6 @@
 </div>
 </form>
 
-
     <#if (valueNow >= size) && (size > 0)>
         <script>
             clearInterval(refreshIntervalId);
@@ -81,7 +80,7 @@
         </tr>
         <tr>
             <th ><IMG src="success.png"></th>
-            <td>Jacob</td>
+            <td>Загрузка патча на сервер обновления</td>
             <td>
                 <form method="post" action="clearUpload">
                     <button type="submit"  name="clearUpload"  >Остановить </button>
@@ -89,23 +88,38 @@
             </td>
         </tr>
         <tr>
-            <th ><IMG src="nnnn.png"></th>
-            <td>Jacobnnnnnnnnn</td>
+            <th ><IMG src="success.png"></th>
+            <td>Установка SQL</td>
             <td>
                 <form method="post" action="clearUpload">
                     <button type="submit"  name="clearUpload"  >Остановить </button>
                 </form>
             </td>
         </tr>
-
+        <tr>
+            <th ><IMG src="success.png"></th>
+            <td>Установка XML</td>
+            <td>
+                <form method="post" action="clearUpload">
+                    <button type="submit"  name="clearUpload"  >Остановить </button>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <th ><IMG src="success.png"></th>
+            <td>Загрузка патча на все сервера кластера</td>
+            <td>
+                <form method="post" action="clearUpload">
+                    <button type="submit"  name="clearUpload"  >Остановить </button>
+                </form>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>
 
 <div class="container">
-    <h2>Alert Links</h2>
-    <p>Add the alert-link class to any links inside the alert box to create "matching colored links".</p>
-    <div class="alert alert-success">
+     <div class="alert alert-success">
         <strong>Success!</strong> You should <a href="#" class="alert-link">read this message</a>.
     </div>
     <div class="alert alert-info">
