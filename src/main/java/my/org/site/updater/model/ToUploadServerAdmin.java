@@ -1,55 +1,57 @@
 package my.org.site.updater.model;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.*;
 import java.nio.file.Files;
 
-public class ToUploadServerAdmin {
+public class ToUploadServerAdmin implements ProgressBar {
 
     private final String login = "f_belgorod";
 
     private final String password = "E666T5fZ";
 
-    private static String outFile = "D:\\TEMP\\patch.zip";  //private final String outFile = "A:\\temp\\patch.zip";
+    //private  String outFile = "D:\\TEMP\\patch.zip";
+    private  String outFile = "A:\\temp\\patch.zip";
 
-    private static int size = 0;
+    private int size = 0;
+    private double valueNow = 0;
+    private int part ;
+    private boolean checked = false;
 
-    private static double valueNow = 0;
-
-    private static int part = 0;
-
-    private InputStream inputStream = null;
-
-    private static boolean checked = false;
-
-
-    public static String getOutFile() {
-        return outFile;
-    }
-
-    public static boolean getChecked() {
-        return checked;
-    }
-
-    public static double getPart() {
-        return part;
-    }
-
-    public static int getSize() {
+    public int getSize() {
         return size;
     }
 
-    public static double getValueNow() {
+    public void setSize(int size) {
+        this.size = (int) ProgressBar.roundToMegabytes(size);
+    }
+
+    public double getValueNow() {
         return valueNow;
     }
 
+    public void setValueNow(int valueNow) {
+        this.valueNow += ProgressBar.roundToMegabytes(valueNow);
+    }
 
+    public int getPart() {
+        return part;
+    }
 
-    public void closeUpload(){
+    public void setPart() {
+        this.part = ProgressBar.percentageOfProgress(getSize(),getValueNow());
+    }
+
+    public boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public  void closeUpload(){
         try {
-            inputStream.close();
             Files.delete(new File(outFile).toPath());
             size = 0;
             valueNow = 0;
@@ -60,89 +62,65 @@ public class ToUploadServerAdmin {
         }
     }
 
-    public void httpPath(String path){
+    public void httpPath(String path) throws IOException {
+        URL url = new URL(path);
+        Authenticator.setDefault(new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(login, password.toCharArray());
+            }
+        });
 
-        try {
-            URL url = new URL(path);
-            Authenticator.setDefault(new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(login, password.toCharArray());
-                }
-            });
+        URLConnection connection = url.openConnection();
+        setSize(connection.getContentLength());
 
-            URLConnection connection = url.openConnection();
+        System.out.println(connection.getContentLength());
+        byte[] byteArray;
 
-            setSize(connection.getContentLength());
+        try (
 
-            System.out.println(connection.getContentLength());
-            inputStream = connection.getInputStream();
-            File file = new File(outFile);
+                BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
+                BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outFile));
+        ) {
 
-            setValueNow(file);
+//            inputStream = connection.getInputStream();
+//            File file = new File(outFile);
+//
+//            setValueNow(file);
+//
+//            Files.copy(inputStream, file.toPath());
+            byteArray = new byte[8192];
+            int in;
+            double inSize = 0;
+            while ((in = bis.read(byteArray)) != -1){
+                setValueNow(in);
+                setPart();
+           //     System.out.println("valueNow = "+valueNow);
+                bos.write(byteArray,0,in);
 
-            Files.copy(inputStream, file.toPath());
-            setChecked(file,connection.getContentLength());
-            System.out.println("size       : " + checked);
-            System.out.println("file.length: " + file.length());
+            }
+            System.out.println("nSize = "+inSize);
+
+
+        //    setChecked(new File(outFile),connection.getContentLength());
+//            System.out.println("size       : " + checked);
+//            System.out.println("file.length: " + file.length());
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        finally {
-            try {
-                inputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        finally {
+//            try {
+//                inputStream.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
-    private static void setSize(int size) {
-        double s = size / 1024;
-        ToUploadServerAdmin.size = (int) (s/1024);
-    }
 
-    private static void setValueNow(File file) {
-        new Thread(
-                () -> {
-                    do {
-                        if(file.exists()){
-                            try {
-                                ToUploadServerAdmin.valueNow = Files.readAllBytes(file.toPath()).length/1024;
-                                ToUploadServerAdmin.valueNow = ToUploadServerAdmin.valueNow/1024;
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-
-                           // part = (valueNow/size) * 100;
-                            setPart(getSize(),valueNow);
-                            System.out.println("file.length " + valueNow + " / " + getSize() + " size "+getPart()+" %");
-                        }
-                    }
-                    while (size > valueNow) ;
-                }).start();
-    }
-
-    private static void setPart(int size, double valueNow) {
-        double m = valueNow / size;
-        ToUploadServerAdmin.part = (int) (m * 100);
-    }
-
-    public void setChecked(File file, int connectionSize ) {
-        if(file.length() == connectionSize){
-            this.checked = true;
-        } else {
-            this.checked = false;
-        }
-    }
 
 
 }

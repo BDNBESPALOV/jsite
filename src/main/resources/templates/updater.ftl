@@ -13,11 +13,25 @@
     if ( (${valueNow} < ${size}) || (${size} == 0)) {
         $('#contentFile').load(document.URL +  ' #contentFile');
         $('.successChecked').load(document.URL +  ' .successChecked');
+
+        $('#contentFileToUploadSP').load(document.URL +  ' #contentFileToUploadSP');
+        $('.successCheckedToUploadSP').load(document.URL +  ' .successCheckedToUploadSP');
+
      }
 
         }, 2000);
 
     </script>
+    <style>
+   #myBlock {
+    background: #C5DF94; /* Цвет фона */
+    height: 200px; /* Высота */
+    padding: 10px; /* Поля вокруг текста */
+     overflow: auto; /* Добавляем полосы прокрутки */
+   }
+
+
+  </style>
 </head>
 <body>
 
@@ -41,13 +55,15 @@
 </div>
 </form>
 
-    <#if (valueNow >= size) && (size > 0)>
-        <script>
-            clearInterval(refreshIntervalId);
-        </script>
-    </#if>
+<!--    <#if (valueNow >= size) && (size > 0)>-->
+<!--        <script>-->
+<!--            clearInterval(refreshIntervalId);-->
+<!--        </script>-->
+<!--    </#if>-->
 
 <div class="container">
+
+
     <table class="table table-hover">
         <thead>
         <tr>
@@ -64,7 +80,13 @@
             </#if>
             </th>
             <td>Загрузка патча на сервер контроллера
+
                 <div id="contentFile">
+<!--                    ${valueNow}-->
+<!--                    ${size}-->
+<!--                    ${part}-->
+<!--                    <br>-->
+<!--                    ${part}%-->
                     <div class="progress" >
                         <div  class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow=${valueNow} aria-valuemin="0" aria-valuemax=${size} style="width: ${part}%" ></div>
                     </div>
@@ -77,8 +99,18 @@
             </td>
         </tr>
         <tr>
-            <th ><IMG src="success.png"></th>
-            <td>Загрузка патча на сервер обновления</td>
+            <th class="successCheckedToUploadSP">
+                <#if checked>
+                <IMG src="success.png">
+            </#if>
+            </th>
+            <td>Загрузка патча на сервер обновления
+                <div id="contentFileToUploadSP">
+                    <div class="progress" >
+                        <div  class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow=${valueNowToUploadSP} aria-valuemin="0" aria-valuemax=${sizeToUploadSP} style="width: ${partToUploadSP}%" ></div>
+                    </div>
+                </div>
+            </td>
             <td>
                 <form method="post" action="clearUpload">
                     <button type="submit"  name="clearUpload"  >Остановить</button>
@@ -87,7 +119,27 @@
         </tr>
         <tr>
             <th ><IMG src="success.png"></th>
-            <td>Установка SQL</td>
+            <td>Установка SQL
+<!--                <div he>-->
+<!--                    <p class="text-light bg-dark">-->
+<!--                </div>-->
+<!--                <div class="myBlock">-->
+<!--                    <p>Лев ревёт только в том случае, когда сообщает, что-->
+<!--                        территория принадлежит ему или провозглашает себя царём природы.</p>-->
+<!--                    <p>Охотничий участок льва может иметь длину и ширину-->
+<!--                        до тридцати километров.</p>-->
+<!--                </div>-->
+
+                <div class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-light" id="myBlock">
+                    <p class="text-light bg-dark">
+
+                    </p>
+
+                </div>
+
+                </p>
+            </td>
+
             <td>
                 <form method="post" action="clearUpload">
                     <button type="submit"  name="clearUpload"  >Остановить</button>

@@ -1,5 +1,6 @@
 package my.org.site.updater;
 
+import my.org.site.updater.model.ToUploadSP;
 import my.org.site.updater.model.ToUploadServerAdmin;
 import my.org.site.updater.model.Uploading;
 import org.springframework.stereotype.Controller;
@@ -12,23 +13,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class UpdaterController {
 
     private ToUploadServerAdmin updateModel = new ToUploadServerAdmin();
+    private ToUploadSP toUploadSP = new ToUploadSP();
 
 
-    @RequestMapping(value = { "/center" }, method = RequestMethod.GET)
-    public String te(Model model){
-        model.addAttribute("valueNow", ToUploadServerAdmin.getValueNow());
-        return "updater";
-    }
+//    @RequestMapping(value = { "/center" }, method = RequestMethod.GET)
+//    public String te(Model model){
+//        model.addAttribute("valueNow", updateModel.getValueNow());
+//        return "updater";
+//    }
 
 
     @RequestMapping(value = { "/updater" }, method = RequestMethod.GET)
     public String updater(Model model) {
     model.addAttribute("pathGZ", new PathGZ());
-    model.addAttribute("size",  ToUploadServerAdmin.getSize());
-    model.addAttribute("valueNow", ToUploadServerAdmin.getValueNow());
-    model.addAttribute("part", ToUploadServerAdmin.getPart());
-    model.addAttribute("checked", ToUploadServerAdmin.getChecked());
 
+    model.addAttribute("size",  updateModel.getSize());
+    model.addAttribute("valueNow", updateModel.getValueNow());
+    model.addAttribute("part", updateModel.getPart());
+    model.addAttribute("checked", updateModel.getChecked());
+
+    model.addAttribute("sizeToUploadSP",  toUploadSP.getSize());
+    model.addAttribute("valueNowToUploadSP", toUploadSP.getValueNow());
+    model.addAttribute("partToUploadSP", toUploadSP.getPart());
+    model.addAttribute("checkedToUploadSP", toUploadSP.getChecked());
     return "updater";
     }
 
@@ -36,7 +43,7 @@ public class UpdaterController {
     public String findInLog(Model model,
                                 @ModelAttribute("pathGZ") PathGZ pathGZ
     )  {
-        new Uploading().start(pathGZ,updateModel);
+        new Uploading().start(pathGZ,updateModel,toUploadSP);
         return "redirect:/updater";
     }
 

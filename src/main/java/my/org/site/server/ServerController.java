@@ -103,11 +103,8 @@ public class ServerController {
                     }
 
                     System.out.println("inputLine: " + inputLine);
-//                    if (".".equals(inputLine)) {
-//                        out.println("bye");
-//                        break;
-//                    }
-                    out.println(inputLine);
+
+ //                   out.println(inputLine);
                 }
 
             } catch (SocketException e){}
@@ -182,14 +179,6 @@ public class ServerController {
                     () -> {
                         try {
                             start(8181);
-//                        serverSocket = new ServerSocket(8181);
-//
-//                        System.out.println("serverSocketStarted: " + serverSocket);
-//                        try {
-//                            while (true)
-//                                new ServerController.EchoClientHandler(serverSocket.accept()).start();
-//                        }catch (SocketException e){
-//
 //
                         } catch (IOException e) {
                             e.printStackTrace();
