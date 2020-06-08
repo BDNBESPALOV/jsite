@@ -21,13 +21,21 @@
 
         }, 2000);
 
+        function mainUploadFunction() {
+            myUploadPatch.setAttribute("action","executeMainUpload");
+            document.getElementById("myUploadPatch").submit();
+            location.reload();
+        }
+
     </script>
     <style>
    #myBlock {
-    background: #C5DF94; /* Цвет фона */
+    background: #ff; /* Цвет фона */
+    /*width: 800px;  Ширина 800px*/
     height: 200px; /* Высота */
     padding: 10px; /* Поля вокруг текста */
-     overflow: auto; /* Добавляем полосы прокрутки */
+    /* Добавляем полосы прокрутки */
+    overflow-x: auto;
    }
 
 
@@ -44,7 +52,7 @@
     </a>
 </nav>
 
-<form name="uploads" action="pathgz" method="POST">
+<form id="myUploadPatch" name="uploads" action="pathgz" method="POST">
 <div class="input-group">
     <div class="custom-file">
         <@spring.formInput "pathGZ.path" " type='file' name='myfile' class='form-control'  placeholder='Введите путь к патчу или URL ' " "text"/>
@@ -61,88 +69,85 @@
 <!--        </script>-->
 <!--    </#if>-->
 
-<div class="container">
 
 
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">Результат</th>
-            <th scope="col">Процесс</th>
-            <th scope="col>">Действие</tr>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <th class="successChecked">
-                <#if checked>
-                <IMG src="success.png">
-            </#if>
-            </th>
-            <td>Загрузка патча на сервер контроллера
+<div class="container  ">
+    <div class="row">
+        <div class="col ">
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col" >Результат</th>
+                        <th scope="col" >Процесс</th>
+                        <th scope="col" >Действие</tr>
+                    </tr>
+                </thead>
+            <tbody>
 
-                <div id="contentFile">
-<!--                    ${valueNow}-->
-<!--                    ${size}-->
-<!--                    ${part}-->
-<!--                    <br>-->
-<!--                    ${part}%-->
-                    <div class="progress" >
-                        <div  class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow=${valueNow} aria-valuemin="0" aria-valuemax=${size} style="width: ${part}%" ></div>
-                    </div>
-                </div>
-            </td>
-            <td>
-                <form method="post" action="clearUpload">
-                    <button type="submit"  name="clearUpload"  >Остановить</button>
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <th class="successCheckedToUploadSP">
-                <#if checked>
-                <IMG src="success.png">
-            </#if>
-            </th>
-            <td>Загрузка патча на сервер обновления
-                <div id="contentFileToUploadSP">
-                    <div class="progress" >
-                        <div  class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow=${valueNowToUploadSP} aria-valuemin="0" aria-valuemax=${sizeToUploadSP} style="width: ${partToUploadSP}%" ></div>
-                    </div>
-                </div>
-            </td>
-            <td>
-                <form method="post" action="clearUpload">
-                    <button type="submit"  name="clearUpload"  >Остановить</button>
-                </form>
-            </td>
-        </tr>
-        <tr>
+                <tr>
+                    <th class="successChecked">
+                        <#if checked>
+                        <IMG src="success.png">
+                    </#if>
+                    </th>
+                    <td > <p>Загрузка патча на сервер контроллера</p>
+                        <div id="contentFile " >
+                            <div class="progress" >
+                                <div  class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow=${valueNow} aria-valuemin="0" aria-valuemax=${size} style="width: ${part}%" ></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <form  method="post" action="executeMainUpload" >
+                            <button type="button"  onclick="mainUploadFunction()" >Выполнить!</button>
+                        </form>
+                        <form method="post" action="clearMainUpload">
+                            <button type="submit"  name="clearMainUpload"  >Остановить</button>
+                        </form>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="successCheckedToUploadSP">
+                        <#if checked>
+                        <IMG src="success.png">
+                    </#if>
+                    </th>
+                    <td> <p>Загрузка патча на сервер обновления</p>
+                        <div id="contentFileToUploadSP" >
+                            <div class="progress" >
+                                <div  class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow=${valueNowToUploadSP} aria-valuemin="0" aria-valuemax=${sizeToUploadSP} style="width: ${partToUploadSP}%" ></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <form >
+                            <button>Выполнить!</button>
+                        </form>
+                        <form method="post" action="clearUploadServerSQLvXML">
+                            <button type="submit"  name="clearUploadServerSQLvXML"  >Остановить</button>
+                        </form>
+                    </td>
+                </tr>
+            <tr>
             <th ><IMG src="success.png"></th>
             <td>Установка SQL
-<!--                <div he>-->
-<!--                    <p class="text-light bg-dark">-->
-<!--                </div>-->
-<!--                <div class="myBlock">-->
-<!--                    <p>Лев ревёт только в том случае, когда сообщает, что-->
-<!--                        территория принадлежит ему или провозглашает себя царём природы.</p>-->
-<!--                    <p>Охотничий участок льва может иметь длину и ширину-->
-<!--                        до тридцати километров.</p>-->
-<!--                </div>-->
 
-                <div class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-light" id="myBlock">
-                    <p class="text-light bg-dark">
-
-                    </p>
-
+                <div class="bg-dark" id="myBlock">
+                    <#list toExecutionSQL as item>
+                        <p class="text-light bg-dark" style="font-size: 8pt;">
+                            ${item}
+                          </p>
+                    </#list>
                 </div>
-
-                </p>
             </td>
 
             <td>
+                <form >
+                    <button>Выполнить!</button>
+                </form>
                 <form method="post" action="clearUpload">
-                    <button type="submit"  name="clearUpload"  >Остановить</button>
+                    <button type="submit"  name="clearUpload">Остановить</button>
                 </form>
             </td>
         </tr>
@@ -150,6 +155,9 @@
             <th ><IMG src="success.png"></th>
             <td>Установка XML</td>
             <td>
+                <form >
+                    <button>Выполнить!</button>
+                </form>
                 <form method="post" action="clearUpload">
                     <button type="submit"  name="clearUpload"  >Остановить</button>
                 </form>
@@ -159,6 +167,9 @@
             <th ><IMG src="success.png"></th>
             <td>Загрузка патча на все сервера кластера</td>
             <td>
+                <form >
+                    <button>Выполнить!</button>
+                </form>
                 <form method="post" action="clearUpload">
                     <button type="submit"  name="clearUpload"  >Остановить</button>
                 </form>
@@ -166,6 +177,8 @@
         </tr>
         </tbody>
     </table>
+    </div>
+    </div>
 </div>
 
 <div class="container">
@@ -181,6 +194,40 @@
     <div class="alert alert-danger">
         <strong>Danger!</strong> You should <a href="#" class="alert-link">read this message</a>.
     </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-5" style="height: 200px;">
+            <div class="overflow-auto" >
+                <p>Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit amet,
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                    Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+
+                </p>
+            </div>
+    </div>
+
+        </div>
+
+
+<!--    <div class="overflow-hidden">...</div>-->
 </div>
 
 

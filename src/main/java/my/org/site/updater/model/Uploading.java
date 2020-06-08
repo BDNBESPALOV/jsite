@@ -6,21 +6,27 @@ import java.io.IOException;
 
 public class Uploading {
 
-    public void start(PathGZ pathGZ, ToUploadServerAdmin updateModel, ToUploadSP toUploadSP){
+    public void start(PathGZ pathGZ,
+                      ToUploadMainServer updateModel, ToUploadSPServerSQLvXML toUploadSP,
+    ToExecutionSQL toExecutionSQL
+    ){
 
         String path = pathGZ.getPath();
-        Thread thread = null;
+        Thread threadUploadHTTP = null;
+        Thread threadToServer = null;
+        Thread threadSQL = null;
 
-        /* Загрузка патча на сервер контроллера */
-        if(path.contains("http")){
-           thread = new Thread(() ->{
-               try {
-                   updateModel.httpPath(path);
-               } catch (IOException e) {
-                   e.printStackTrace();
-               }
-           });
-           thread.start();
+        if(pathGZ.getPath() != null) {
+            /* Загрузка патча на сервер контроллера */
+            if (path.contains("http")) {
+                threadUploadHTTP = new Thread(() -> {
+                    try {
+                        updateModel.httpPath(path);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                threadUploadHTTP.start();
 
 //            /* Загрузка патча на сервер обновления */
 //            if (thread != null){
@@ -36,12 +42,12 @@ public class Uploading {
 //                });
 //                thread2.start();
 //            }
-        } else {
+            }
             /* Загрузка патча на сервер обновления */
-            if (thread != null) {
+            if (threadUploadHTTP != null) {
 
-                Thread finalThread = thread;
-                Thread thread2 = new Thread(() -> {
+                Thread finalThread = threadUploadHTTP;
+                threadToServer = new Thread(() -> {
                     try {
                         finalThread.join();
                         toUploadSP.uploadFile(pathGZ.getPath());
@@ -49,7 +55,7 @@ public class Uploading {
                         e.printStackTrace();
                     }
                 });
-                thread2.start();
+                threadToServer.start();
             } else {
 
                 Thread thread2 = new Thread(() -> {
@@ -59,6 +65,31 @@ public class Uploading {
             }
 
         }
+
+        /*ЗДЕСЬ НУЖНО СДЕЛАТЬ ПРОВЕРКУ ПО УСПЕШНОСТИ ВЫПОЛНЕНИЯ ПРЕДЫДУЩИХ ПУНКТОВ */
+        /*Установка SQL*/
+        //if (threadUploadHTTP != null && threadToServer !=null) {
+
+
+//            Thread finalThreadToServer = threadToServer;
+//            Thread finalThreadUploadHTTP = threadUploadHTTP;
+//            threadSQL = new Thread(() -> {
+//                try {
+//                    finalThreadToServer.join();
+//                    finalThreadUploadHTTP.join();
+ //------                   toExecutionSQL.send();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            });
+//            threadSQL.start();
+//        } else {
+//
+//            Thread thread2 = new Thread(() -> {
+//             //   toExecutionSQL.send();
+//            });
+//            thread2.start();
+//        }
 
 
 

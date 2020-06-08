@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.nio.file.Files;
 
-public class ToUploadServerAdmin implements ProgressBar {
+public class ToUploadMainServer implements ProgressBar {
 
     private final String login = "f_belgorod";
 

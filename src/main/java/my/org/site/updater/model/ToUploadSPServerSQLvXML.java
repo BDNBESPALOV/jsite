@@ -5,10 +5,11 @@ import my.org.site.server.ServerController;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.file.Files;
 import java.util.Date;
 import java.util.HashMap;
 
-public class ToUploadSP implements ProgressBar{
+public class ToUploadSPServerSQLvXML implements ProgressBar{
 
     private HashMap<String, JClient> clientHashMap;
     private Socket clientSocket;
@@ -57,8 +58,11 @@ public class ToUploadSP implements ProgressBar{
     }
 
 
+
     public void uploadFile(String path)  {
-        setSize((int) new File(path).length());
+        this.path = path;
+        String fileSize = new File(path).length()+"";
+        setSize(fileSize);
         System.out.println("path.length()== "+new File(path).length());
 
         this.clientHashMap = ServerController.jClientMap;
@@ -87,6 +91,8 @@ public class ToUploadSP implements ProgressBar{
         try(
                 BufferedInputStream bis = new BufferedInputStream(new FileInputStream(path));
                 BufferedOutputStream bos = new BufferedOutputStream(clientSocketFile.getOutputStream());
+                //ответ от клиента
+                BufferedReader result = new BufferedReader( new InputStreamReader(clientSocketFile.getInputStream()));
         ) {
             byteArray = new byte[8192];
             int in;
@@ -97,13 +103,47 @@ public class ToUploadSP implements ProgressBar{
                 bos.write(byteArray,0,in);
             }
 
+            /* после передачи ждем ответ от клиента */
+            String resultLine;
+            while ((resultLine = result.readLine()) != null) {
+                /* сравниваем размеры файлов, отправленного и плученного  */
+                if (resultLine.contains("SizeFile:")){
+                    if (fileSize.equals(resultLine.substring(9))){
+                        System.out.println("Передача файла прошла успешно.");
+                    }else {
+                        System.out.println("Что-то пошло не так !!!"+"\n"+"Файл недокачен...");
+                    }
+                }
+                /* проверяем резуьтат копирования файлов патча */
+                if (resultLine.contains("copying:")){
+                    if (resultLine.contains("100")){
+                        System.out.println("Копирование прошло успешно "+resultLine );
+                    } else {
+                        System.out.println("Что-то пошло не так !!! "+resultLine );
+                    }
+                }
+            }
+
+
         } catch (IOException e){
             System.out.println(e);
         }
-
+        /* удаляем данные по соединению передачи */
         clientHashMap.remove("AdminFile");
 
 
+    }
+
+    public  void closeUpload(){
+        try {
+            Files.delete(new File(path).toPath());
+            size = 0;
+            valueNow = 0;
+            part = 0;
+            checked = false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -1,6 +1,7 @@
 package my.org.site.server;
 
 import lombok.SneakyThrows;
+import my.org.site.updater.model.ToExecutionSQL;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -221,7 +222,7 @@ public class ServerController {
                     System.out.println("isClosed() "+socketTemp.isClosed());
 
                 if(socketTemp.isClosed()){
-                    System.out.println("refresh "+socketTemp.isConnected());
+                    System.out.println("socketTemp.isConnected "+socketTemp.isConnected());
                     try {
                         socketTemp.close();
                     } catch (IOException ioException) {

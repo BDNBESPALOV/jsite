@@ -17,7 +17,6 @@
 
 <table class="table table-striped table-dark">
     <tr>
-
         <th scope="col">
             <form method="post"  action="refresh" >
                 <button type="submit" name="refresh"  >Обновить</button>
