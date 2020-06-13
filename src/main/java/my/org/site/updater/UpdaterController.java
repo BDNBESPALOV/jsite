@@ -61,7 +61,7 @@ public class UpdaterController {
         String path = pathGZ.getPath();
         System.out.println(path);
 
-        if(pathGZ != null || pathGZ.getPath() != null ) {
+        if(updateModel.fileExists(path)) {
             /* Загрузка патча на сервер контроллера */
             if (path.contains("http")) {
                  new Thread(() -> {

@@ -6,40 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/css/style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="/js/mainUploadFunction.js"></script>
     <script type="text/javascript">
      var refreshIntervalId = setInterval (function () {
 
-    if ( (${valueNow} < ${size}) || (${size} == 0)) {
+    if ( ((${valueNow} < ${size}) || (${size} == 0)) &&  (${checked?c} == false)  ) {
         $('#contentFile').load(document.URL +  ' #contentFile');
         $('.successChecked').load(document.URL +  ' .successChecked');
+     }
 
+
+     if ( ((${valueNowToUploadSP} < ${sizeToUploadSP}) || (${sizeToUploadSP} == 0))  &&  (${checkedToUploadSP?c} == false) ) {
         $('#contentFileToUploadSP').load(document.URL +  ' #contentFileToUploadSP');
         $('.successCheckedToUploadSP').load(document.URL +  ' .successCheckedToUploadSP');
-
      }
 
         }, 2000);
-
-        function mainUploadFunction() {
-            myUploadPatch.setAttribute("action","executeMainUpload");
-            document.getElementById("myUploadPatch").submit();
-            location.reload();
-        }
-
     </script>
-    <style>
-   #myBlock {
-    background: #ff; /* Цвет фона */
-    /*width: 800px;  Ширина 800px*/
-    height: 200px; /* Высота */
-    padding: 10px; /* Поля вокруг текста */
-    /* Добавляем полосы прокрутки */
-    overflow-x: auto;
-   }
 
-
-  </style>
 </head>
 <body>
 
@@ -88,30 +75,32 @@
                     <th class="successChecked">
                         <#if checked>
                         <IMG src="success.png">
-                    </#if>
+                        </#if>
                     </th>
                     <td > <p>Загрузка патча на сервер контроллера</p>
-                        <div id="contentFile " >
+                        <div id="contentFile" >
                             <div class="progress" >
-                                <div  class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow=${valueNow} aria-valuemin="0" aria-valuemax=${size} style="width: ${part}%" ></div>
+                                <#if part <= 100>
+                                <div  class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow=${valueNow} aria-valuemin="0" aria-valuemax=${size} style="width: ${part}%" >${part}%</div>
+                                </#if>
                             </div>
                         </div>
                     </td>
                     <td>
                         <form  method="post" action="executeMainUpload" >
-                            <button type="button"  onclick="mainUploadFunction()" >Выполнить!</button>
+                            <button type="button"  onclick="mainUploadFunction()">Выполнить!</button>
                         </form>
                         <form method="post" action="clearMainUpload">
-                            <button type="submit"  name="clearMainUpload"  >Остановить</button>
+                            <button type="submit"  name="clearMainUpload">Остановить</button>
                         </form>
                     </td>
                 </tr>
 
                 <tr>
                     <th class="successCheckedToUploadSP">
-                        <#if checked>
+                        <#if checkedToUploadSP>
                         <IMG src="success.png">
-                    </#if>
+                        </#if>
                     </th>
                     <td> <p>Загрузка патча на сервер обновления</p>
                         <div id="contentFileToUploadSP" >

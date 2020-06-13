@@ -1,15 +1,8 @@
-h1 {
-    color:#0000FF;
-}
-
-h2 {
-    color:#FF0000;
-}
-
-table {
-    border-collapse: collapse;
-}
-
-table th, table td {
-    padding: 5px;
-}
+   #myBlock {
+    background: #ff; /* Цвет фона */
+    /*width: 800px;  Ширина 800px*/
+    height: 200px; /* Высота */
+    padding: 10px; /* Поля вокруг текста */
+    /* Добавляем полосы прокрутки */
+    overflow-x: auto;
+   }

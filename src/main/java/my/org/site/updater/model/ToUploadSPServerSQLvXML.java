@@ -16,14 +16,14 @@ public class ToUploadSPServerSQLvXML implements ProgressBar{
     private PrintWriter out;
     private String path;
 
-    public void setSize( String path) {
-        this.size = (int) new File(path).length();
-    }
-
     private int size = 0;
     private double valueNow = 0;
     private int part ;
     private boolean checked = false;
+
+    public void setSize( String path) {
+        this.size = (int) new File(path).length();
+    }
 
     public int getSize() {
         return size;
