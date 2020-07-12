@@ -3,6 +3,7 @@ package my.org.site.updater.model;
 import my.org.site.updater.PathGZ;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 public class Uploading {
 
@@ -50,7 +51,11 @@ public class Uploading {
                 threadToServer = new Thread(() -> {
                     try {
                         finalThread.join();
-                        toUploadSP.uploadFile(pathGZ.getPath());
+                        try {
+                            toUploadSP.uploadFile(pathGZ.getPath());
+                        } catch (NoSuchAlgorithmException e) {
+                            e.printStackTrace();
+                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -59,7 +64,11 @@ public class Uploading {
             } else {
 
                 Thread thread2 = new Thread(() -> {
-                    toUploadSP.uploadFile(pathGZ.getPath());
+                    try {
+                        toUploadSP.uploadFile(pathGZ.getPath());
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    }
                 });
                 thread2.start();
             }

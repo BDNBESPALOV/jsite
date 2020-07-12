@@ -23,6 +23,8 @@ public class ServerController {
     public static int pSize = 0;
     public static String clientName;
 
+    public static String md5file = "";
+
 
     @Value("${welcome.message}")
     private String message;
@@ -101,6 +103,10 @@ public class ServerController {
                         jClientMap.get(name).addProcess(new ParserLine(inputLine).getKey(),
                                 new ParserLine(inputLine).getValue());
 
+                    } else if (inputLine.contains("MD5:")){
+                        String md5 = inputLine.substring(4);
+                        System.out.println("Инициализация переменной md5file значением: " + md5 );
+                        md5file = md5;
                     }
 
                     System.out.println("inputLine: " + inputLine);

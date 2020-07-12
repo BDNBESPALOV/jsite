@@ -11,13 +11,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 @Controller
 public class UpdaterController {
 
+    /* главный сервер */
     private ToUploadMainServer updateModel = new ToUploadMainServer();
-    private ToUploadSPServerSQLvXML toUploadSPServerSQLvXML = new ToUploadSPServerSQLvXML();
+    /* сервер обновления */
+    public ToUploadSPServerSQLvXML toUploadSPServerSQLvXML = new ToUploadSPServerSQLvXML();
+    /* запуск скриптов SQL */
     private ToExecutionSQL toExecutionSQL = new ToExecutionSQL();
+
+    /* дериктория загруженного патча */
+    private final String PATCH_DIR = "A:\\temp\\patch.zip";
 
 
 //    @RequestMapping(value = { "/center" }, method = RequestMethod.GET)
@@ -40,12 +47,11 @@ public class UpdaterController {
     model.addAttribute("partToUploadSP", toUploadSPServerSQLvXML.getPart());
     model.addAttribute("checkedToUploadSP", toUploadSPServerSQLvXML.getChecked());
 
-    //toExecutionSQL.setSqlListResult(">");
     model.addAttribute("toExecutionSQL",toExecutionSQL.getSqlListResult());
     return "updater";
     }
 
-    /* Обновить систему */
+    /* Обновить систему, автоматический режим*/
     @RequestMapping(value = { "/pathgz" }, method = RequestMethod.POST)
     public String findInLog(Model model,
                                 @ModelAttribute("pathGZ") PathGZ pathGZ
@@ -55,6 +61,9 @@ public class UpdaterController {
         return "redirect:/updater";
     }
 
+    /** Ручной режим обновления */
+
+    /* Главный сервер */
     /* Выполнить загрузку потча на главный сервер  */
     @RequestMapping(value = { "/executeMainUpload" }, method = RequestMethod.POST)
     public String executeMainUploadPost(Model model, @ModelAttribute("pathGZ") PathGZ pathGZ )  {
@@ -81,14 +90,31 @@ public class UpdaterController {
     /* Остановить загрузку потча на главный сервер  */
     @RequestMapping(value = { "/clearMainUpload" }, method = RequestMethod.POST)
     public String clearMainUploadPost(Model model)  {
-        System.out.println("Иницирована остановка загрузки потча на главный сервер!!!");
+        System.out.println("Иницирована остановка загрузки потча на главный сервер!");
         updateModel.closeUpload();
         return "redirect:/updater";
     }
 
 
+    /** Сервер обновления */
+    /* Передача файла */
+
+    /* Выполнить загрузку потча на сервер обновления SQL/XML  */
+    @RequestMapping(value = { "/executeSPServerSQLvXML" }, method = RequestMethod.POST)
+    public String executeSPServerSQLvXML(Model model )  {
+        System.out.println("Загрузка потча на сервер обновления SQL/XMLexecuteSPServerSQLvXML");
+        new Thread(() -> {
+            try {
+                toUploadSPServerSQLvXML.uploadFile(PATCH_DIR);
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+        }).start();
+        return "redirect:/updater";
+    }
+
     /* Остановить загрузку потча на сервер обновления SQL/XML */
-    @RequestMapping(value = { "/clearUploadServerSQLvXML" }, method = RequestMethod.POST)
+    @RequestMapping(value = { "/clearUploadSPServerSQLvXML" }, method = RequestMethod.POST)
     public String clearUploadPostServerSQLvXML(Model model)  {
         toUploadSPServerSQLvXML.closeUpload();
         return "redirect:/updater";

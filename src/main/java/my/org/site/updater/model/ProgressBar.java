@@ -10,14 +10,22 @@ public interface ProgressBar {
       boolean ProgressBarChecked = false;
 
 
-    static double roundToMegabytes(int size) {
-        double s = size / 1024;
-        return  (s/1024);
+    static double roundToMegabytes(int vel) {
+            double s = vel / 1024;
+            return (s / 1024);
     }
 
     static int percentageOfProgress(int size, double valueNow) {
+
         double m = valueNow / size;
-        return  (int) (m * 100);
+        int percent = (int) (m * 100);
+
+        if(percent >= 100){
+            return 100;
+        }else {
+            return  percent;
+        }
+
     }
 
     static boolean setChecked(File file, int connectionSize ) {

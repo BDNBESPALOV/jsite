@@ -18,9 +18,28 @@
 
     <properties>
         <java.version>1.8</java.version>
+
+        <log4j-slf4j-impl.version>2.12.1</log4j-slf4j-impl.version>
     </properties>
 
+
+
     <dependencies>
+        <!-- Apache MD5 -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
+        </dependency>
+        <!-- COMMON LIBS (Log4J2 & Vavr) -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+
+
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -88,10 +88,10 @@
                     </td>
                     <td>
                         <form  method="post" action="executeMainUpload" >
-                            <button type="button"  onclick="mainUploadFunction()">Выполнить!</button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="mainUploadFunction()">Выполнить!</button>
                         </form>
                         <form method="post" action="clearMainUpload">
-                            <button type="submit"  name="clearMainUpload">Остановить</button>
+                            <button type="submit" class="btn btn-secondary btn-sm" name="clearMainUpload">Остановить</button>
                         </form>
                     </td>
                 </tr>
@@ -105,20 +105,24 @@
                     <td> <p>Загрузка патча на сервер обновления</p>
                         <div id="contentFileToUploadSP" >
                             <div class="progress" >
-                                <div  class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow=${valueNowToUploadSP} aria-valuemin="0" aria-valuemax=${sizeToUploadSP} style="width: ${partToUploadSP}%" ></div>
+                                <div  class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow=${valueNowToUploadSP} aria-valuemin="0" aria-valuemax=${sizeToUploadSP} style="width: ${partToUploadSP}%">${partToUploadSP}%</div>
                             </div>
                         </div>
+                        ${sizeToUploadSP}
+                        ${valueNowToUploadSP}
+                        ${partToUploadSP}
                     </td>
                     <td>
-                        <form >
-                            <button>Выполнить!</button>
+                        <form  method="post" action="executeSPServerSQLvXML" >
+                            <button type="submit" class="btn btn-primary btn-sm">Выполнить!</button>
                         </form>
-                        <form method="post" action="clearUploadServerSQLvXML">
-                            <button type="submit"  name="clearUploadServerSQLvXML"  >Остановить</button>
+                        <form method="post" action="clearUploadSPServerSQLvXML">
+                            <button type="submit" class="btn btn-secondary btn-sm" name="clearUploadServerSQLvXML">Остановить</button>
                         </form>
                     </td>
                 </tr>
             <tr>
+
             <th ><IMG src="success.png"></th>
             <td>Установка SQL
 
@@ -133,10 +137,10 @@
 
             <td>
                 <form >
-                    <button>Выполнить!</button>
+                    <button class="btn btn-primary btn-sm">Выполнить!</button>
                 </form>
                 <form method="post" action="clearUpload">
-                    <button type="submit"  name="clearUpload">Остановить</button>
+                    <button type="submit" class="btn btn-secondary btn-sm" name="clearUpload">Остановить</button>
                 </form>
             </td>
         </tr>
@@ -145,10 +149,10 @@
             <td>Установка XML</td>
             <td>
                 <form >
-                    <button>Выполнить!</button>
+                    <button class="btn btn-primary btn-sm" >Выполнить!</button>
                 </form>
                 <form method="post" action="clearUpload">
-                    <button type="submit"  name="clearUpload"  >Остановить</button>
+                    <button type="submit" class="btn btn-secondary btn-sm" name="clearUpload"  >Остановить</button>
                 </form>
             </td>
         </tr>
@@ -157,10 +161,10 @@
             <td>Загрузка патча на все сервера кластера</td>
             <td>
                 <form >
-                    <button>Выполнить!</button>
+                    <button class="btn btn-primary btn-sm">Выполнить!</button>
                 </form>
                 <form method="post" action="clearUpload">
-                    <button type="submit"  name="clearUpload"  >Остановить</button>
+                    <button type="submit" class="btn btn-secondary btn-sm" name="clearUpload"  >Остановить</button>
                 </form>
             </td>
         </tr>
