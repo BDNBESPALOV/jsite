@@ -143,8 +143,7 @@ public class ToUploadSPServerSQLvXML implements ProgressBar{
             }
 //            dis.close();
 //            bos.close();
-            log.info(clientSocketFile.isBound()+" <-bound "+clientSocketFile.isClosed()+" <-close "
-                    +clientSocketFile.isConnected()+" <-connect "+clientSocketFile.isInputShutdown()+" <-isShutdown");
+
 
             log.info("Выход из цикла ");
 
@@ -152,8 +151,14 @@ public class ToUploadSPServerSQLvXML implements ProgressBar{
             /* после передачи ждем ответ от клиента */
             String resultLine;
             log.info("MD5:"+ApacheMd5.md5(path));
-            log.info(clientSocketFile.isBound()+" <-bound "+clientSocketFile.isClosed()+" <-close "
-                    +clientSocketFile.isConnected()+" <-connect "+clientSocketFile.isInputShutdown()+" <-isShutdown");
+            /* засыпаем на 2 секунды, чтобы  дождася завершения
+            другого потока потока, который инициализирует ответ от клиента (ServerController.java) */
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            /* вызываем метод для сравнеия md5 у отправленного и полученного файла  */
             setChecked(ServerController.md5file);
 
             while ((resultLine = result.readLine()) != null) {
