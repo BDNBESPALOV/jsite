@@ -12,19 +12,27 @@
     <script src="/js/mainUploadFunction.js"></script>
     <script type="text/javascript">
      var refreshIntervalId = setInterval (function () {
-
+    <!-- Обновление блока "Загрузка патча на сервер контроллера"-->
     if ( ((${valueNow} < ${size}) || (${size} == 0)) &&  (${checked?c} == false)  ) {
         $('#contentFile').load(document.URL +  ' #contentFile');
         $('.successChecked').load(document.URL +  ' .successChecked');
      }
-
+    <!-- Обновление блока "Загрузка патча на сервер обновления"-->
 
      if ( ((${valueNowToUploadSP} < ${sizeToUploadSP}) || (${sizeToUploadSP} == 0))  &&  (${checkedToUploadSP?c} == false) ) {
         $('#contentFileToUploadSP').load(document.URL +  ' #contentFileToUploadSP');
         $('.successCheckedToUploadSP').load(document.URL +  ' .successCheckedToUploadSP');
      }
 
+
+
+
         }, 2000);
+        var refreshIntervalId = setInterval (function () {
+             <!-- Обновление блока "Установка SQL"-->
+            $('#roundContentExecuteSQL').load(document.URL +  ' #roundContentExecuteSQL');
+<!--        $('.successCheckedExecuteSQL').load(document.URL +  ' .successCheckedExecuteSQL');-->
+        }, 7000);
     </script>
 
 </head>
@@ -108,13 +116,10 @@
                                 <div  class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow=${valueNowToUploadSP} aria-valuemin="0" aria-valuemax=${sizeToUploadSP} style="width: ${partToUploadSP}%">${partToUploadSP}%</div>
                             </div>
                         </div>
-                        ${sizeToUploadSP}
-                        ${valueNowToUploadSP}
-                        ${partToUploadSP}
                     </td>
                     <td>
                         <form  method="post" action="executeSPServerSQLvXML" >
-                            <button type="submit" class="btn btn-primary btn-sm">Выполнить!</button>
+                            <button type="submit" class="btn btn-primary btn-sm" >Выполнить!</button>
                         </form>
                         <form method="post" action="clearUploadSPServerSQLvXML">
                             <button type="submit" class="btn btn-secondary btn-sm" name="clearUploadServerSQLvXML">Остановить</button>
@@ -125,28 +130,83 @@
 
             <th ><IMG src="success.png"></th>
             <td>Установка SQL
+            <div id="roundContentExecuteSQL">
 
-                <div class="bg-dark" id="myBlock">
-                    <#list toExecutionSQL as item>
-                        <p class="text-light bg-dark" style="font-size: 8pt;">
-                            ${item}
-                          </p>
-                    </#list>
+                    <div class="bg-dark" id="contentExecuteSQL">
+                        <#list toExecutionSQL as item>
+                            <p class="text-light bg-dark" style="font-size: 8pt;">
+                                ${item}
+                              </p>
+                        </#list>
+                    </div>
+
+                    <#if checkFoundScripts>
+                        <p>Вы хотите их выполнить?</p>
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        <form method="post" action="executeSQLYes" >
+                                            <button type="submit" value="executeSQLYes"  class="btn btn-primary btn-sm">Да</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form method="post" action="executeSQLNo" c>
+                                            <button  class="btn btn-secondary btn-sm">Нет</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form method="post" action="executeSQLInfo" >
+                                            <button type="submit" class="btn btn-secondary btn-sm" name="clearUpload">Подробности в новом окне</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                    </#if>
+
                 </div>
             </td>
 
             <td>
-                <form >
-                    <button class="btn btn-primary btn-sm">Выполнить!</button>
+                <form method="post" action="executeSQL">
+                    <button type="submit" class="btn btn-primary btn-sm" >Выполнить!</button>
                 </form>
                 <form method="post" action="clearUpload">
                     <button type="submit" class="btn btn-secondary btn-sm" name="clearUpload">Остановить</button>
                 </form>
+
             </td>
         </tr>
         <tr>
             <th ><IMG src="success.png"></th>
-            <td>Установка XML</td>
+            <td>Установка XML
+
+                <table>
+                    <tr>
+                        <td>
+                            <form method="post" action="executeSQLYes" >
+                                <button type="submit" value="executeSQLYes"  class="btn btn-primary btn-sm">Да</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="post" action="executeSQLNo" c>
+                                <button  class="btn btn-secondary btn-sm">Нет</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="post" action="executeSQLInfo" >
+                                <button type="submit" class="btn btn-secondary btn-sm" name="clearUpload">Подробности в новом окне</button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+
+
+
+
+
+
+            </td>
             <td>
                 <form >
                     <button class="btn btn-primary btn-sm" >Выполнить!</button>

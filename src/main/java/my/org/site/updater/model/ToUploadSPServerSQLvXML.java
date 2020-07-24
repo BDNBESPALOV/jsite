@@ -1,10 +1,8 @@
 package my.org.site.updater.model;
 
-import my.org.site.MainApplication;
 import my.org.site.md5.ApacheMd5;
-import my.org.site.server.JClient;
+import my.org.site.server.JClientPOJO;
 import my.org.site.server.ServerController;
-import my.org.site.updater.UpdaterController;
 import org.slf4j.Logger;
 
 import java.io.*;
@@ -19,7 +17,7 @@ import java.util.HashMap;
 public class ToUploadSPServerSQLvXML implements ProgressBar{
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(ToUploadSPServerSQLvXML.class);
-    private HashMap<String, JClient> clientHashMap;
+    private HashMap<String, JClientPOJO> clientHashMap;
     private Socket clientSocket;
     private PrintWriter out;
     private String path;
@@ -141,8 +139,6 @@ public class ToUploadSPServerSQLvXML implements ProgressBar{
                 log.info("valueNow "+valueNow+" part "+part+" in "+in);
                 bos.flush();
             }
-//            dis.close();
-//            bos.close();
 
 
             log.info("Выход из цикла ");
@@ -151,6 +147,7 @@ public class ToUploadSPServerSQLvXML implements ProgressBar{
             /* после передачи ждем ответ от клиента */
             String resultLine;
             log.info("MD5:"+ApacheMd5.md5(path));
+
             /* засыпаем на 2 секунды, чтобы  дождася завершения
             другого потока потока, который инициализирует ответ от клиента (ServerController.java) */
             try {
@@ -160,28 +157,6 @@ public class ToUploadSPServerSQLvXML implements ProgressBar{
             }
             /* вызываем метод для сравнеия md5 у отправленного и полученного файла  */
             setChecked(ServerController.md5file);
-
-            while ((resultLine = result.readLine()) != null) {
-                log.info("resultLine: "+resultLine);
-//                /* сравниваем MD5 файлов, отправленного и плученного  */
-//                if (resultLine.contains("MD5:")){
-//                    if (ApacheMd5.md5(path).equals(resultLine.substring(4))){
-//                        setChecked(true);
-//                        log.info("Передача файла прошла успешно.");
-//                    }else {
-//                        log.info("Что-то пошло не так !!!"+"\n"+"Файл недокачен...");
-//                    }
-//                }
-//                /* проверяем резуьтат копирования файлов патча */
-//                if (resultLine.contains("copying:")){
-//                    if (resultLine.contains("100")){
-//                        log.info("Копирование прошло успешно "+resultLine );
-//                    } else {
-//                        log.info("Что-то пошло не так !!! "+resultLine );
-//                    }
-//                }
-            }
-
 
         } catch (IOException e){
             log.info(String.valueOf(e));
@@ -201,10 +176,5 @@ public class ToUploadSPServerSQLvXML implements ProgressBar{
             e.printStackTrace();
         }
     }
-
-
-
-
-
 
 }

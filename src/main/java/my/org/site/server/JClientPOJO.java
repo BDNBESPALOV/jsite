@@ -3,7 +3,7 @@ package my.org.site.server;
 import java.net.Socket;
 import java.util.HashMap;
 
-public class JClient {
+public class JClientPOJO {
     private Socket clientSocket;
     private String date;
     private String name;
@@ -12,9 +12,9 @@ public class JClient {
 
     private int size;
 
-    public JClient(){}
+    public JClientPOJO(){}
 
-    public JClient(String command, String name, String date,Socket clientSocket) {
+    public JClientPOJO(String command, String name, String date, Socket clientSocket) {
         this.date = date;
         this.name = name;
         this.command = command;
