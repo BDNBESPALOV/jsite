@@ -10,29 +10,6 @@
     <link rel="stylesheet" href="/css/style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="/js/mainUploadFunction.js"></script>
-    <script type="text/javascript">
-     var refreshIntervalId = setInterval (function () {
-    <!-- Обновление блока "Загрузка патча на сервер контроллера"-->
-    if ( ((${valueNow} < ${size}) || (${size} == 0)) &&  (${checked?c} == false)  ) {
-        $('#contentFile').load(document.URL +  ' #contentFile');
-        $('.successChecked').load(document.URL +  ' .successChecked');
-     }
-    <!-- Обновление блока "Загрузка патча на сервер обновления"-->
-
-     if ( ((${valueNowToUploadSP} < ${sizeToUploadSP}) || (${sizeToUploadSP} == 0))  &&  (${checkedToUploadSP?c} == false) ) {
-        $('#contentFileToUploadSP').load(document.URL +  ' #contentFileToUploadSP');
-        $('.successCheckedToUploadSP').load(document.URL +  ' .successCheckedToUploadSP');
-     }
-        }, 5000);
-
-        var refreshIntervalId = setInterval (function () {
-             <!-- Обновление блока "Установка SQL"-->
-            $('#roundContentExecuteSQL').load(document.URL +  ' #roundContentExecuteSQL');
-            $('.successCheckedExecuteSQL').load(document.URL +  ' .successCheckedExecuteSQL');
-        }, 20000);
-
-    </script>
-
 
     <!-- Подключаем стили бутстрапа: -->
     <!-- Подключаем стили для подсветки кода: -->
@@ -43,12 +20,36 @@
     <script src="js/prettify.js"></script>
     <!-- Инициализация функции подсветки кода: -->
     <script type="text/javascript">
-!function ($) {
-	$(function(){
-		window.prettyPrint && prettyPrint()
-	})
-}(window.jQuery)
-</script>
+        !function ($) {
+            $(function(){
+                window.prettyPrint && prettyPrint()
+            })
+        }(window.jQuery)
+    </script>
+
+    <script type="text/javascript">
+<!--     var refreshIntervalId = setInterval (function () {-->
+
+    <!-- Обновление блока "Загрузка патча на сервер контроллера"-->
+    if ( ((${valueNow} < ${size}) || (${size} == 0)) &&  (${checked?c} == false)  ) {
+        $('#contentFile').load(document.URL +  ' #contentFile');
+        $('.successChecked').load(document.URL +  ' .successChecked');
+     }
+    <!-- Обновление блока "Загрузка патча на сервер обновления"-->
+
+     if ( ((${valueNowToUploadSP} < ${sizeToUploadSP}) || (${sizeToUploadSP} == 0))  &&  (${checkedToUploadSP?c} == false) ) {
+        $('#contentFileToUploadSP').load(document.URL +  ' #contentFileToUploadSP');
+        $('.successCheckedToUploadSP').load(document.URL +  ' .successCheckedToUploadSP');
+     }  }, 5000);
+
+    <!-- Обновление блока "Установка SQL"-->
+        var refreshIntervalId = setInterval (function () {
+            $('#roundContentExecuteSQL').load(document.URL +  ' #roundContentExecuteSQL');
+            $('.successCheckedExecuteSQL').load(document.URL +  ' .successCheckedExecuteSQL');
+        }, 5000);
+
+    </script>
+
 
 </head>
 <body>
@@ -81,7 +82,7 @@
 
 
 
-<div class="container  ">
+<div class="container">
     <div class="row">
         <div class="col ">
             <table class="table table-hover table-sm">
@@ -100,7 +101,7 @@
                         <IMG src="success.png">
                         </#if>
                     </th>
-                    <td > <p>Загрузка патча на сервер контроллера</p>
+                    <td class="col-10"> <p>Загрузка патча на сервер контроллера</p>
                         <div id="contentFile" >
                             <div class="progress" >
                                 <#if part <= 100>
@@ -149,11 +150,11 @@
                 </#if>
             <td>Установка SQL
             <div id="roundContentExecuteSQL">
-<pre id="contentExecuteSQL" class="prettyprint linenums lang-sql" style="font-size: 8pt;">
+                <pre id="contentExecuteSQL" class="prettyprint linenums lang-sql" style="font-size: 8pt;">
  <#list toExecutionSQL as item>
- ${item}
+    ${item}
  </#list>
- </pre>
+                </pre>
 <!--                    <div class="bg-dark" id="contentExecuteSQL">-->
 <!--                        <#list toExecutionSQL as item>-->
 <!--                            <p id="testSQL" class="text-light bg-dark" style="font-size: 8pt;">-->
