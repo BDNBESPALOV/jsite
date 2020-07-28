@@ -17,6 +17,8 @@ import java.util.Properties;
 @Controller
 public class UpdaterController {
 
+    Thread threadExecuteSQL;
+
     /* подключение файла Server.properties  */
    private Properties property = new Properties();
      {
@@ -53,16 +55,24 @@ public class UpdaterController {
     model.addAttribute("size",  updateModel.getSize());
     model.addAttribute("valueNow", updateModel.getValueNow());
     model.addAttribute("part", updateModel.getPart());
-    model.addAttribute("checked", updateModel.getChecked());
+    model.addAttribute("checked", updateModel.ProgressBarChecked());
     /*	Загрузка патча на сервер обновления */
     model.addAttribute("sizeToUploadSP",  toUploadSPServerSQLvXML.getSize());
     model.addAttribute("valueNowToUploadSP", toUploadSPServerSQLvXML.getValueNow());
     model.addAttribute("partToUploadSP", toUploadSPServerSQLvXML.getPart());
-    model.addAttribute("checkedToUploadSP", toUploadSPServerSQLvXML.getChecked());
+    model.addAttribute("checkedToUploadSP", toUploadSPServerSQLvXML.ProgressBarChecked());
     /*	Установка SQL */
     model.addAttribute("toExecutionSQL",toExecutionSQL.getSqlListResult());
     model.addAttribute("checkFoundScripts",toExecutionSQL.getCheckFoundScripts());
+    model.addAttribute("checkScripts",toExecutionSQL.ProgressBarChecked());
     return "updater";
+    }
+
+    @RequestMapping(value = { "/textInfo" }, method = RequestMethod.GET)
+    public String textInfo(Model model) {
+        /*	Установка SQL */
+        model.addAttribute("toExecutionSQL",toExecutionSQL.getSqlListResult());
+        return "textInfo";
     }
 
     /* Обновить систему, автоматический режим*/
@@ -138,9 +148,10 @@ public class UpdaterController {
     @RequestMapping(value = { "/executeSQL" }, method = RequestMethod.POST)
     public String executeSQL(Model model )  {
         System.out.println("Выполнения SQL скриптов");
-        new Thread(() -> {
+        threadExecuteSQL = new Thread(() -> {
             toExecutionSQL.send();
-        }).start();
+        },"ThreadExecuteSQL");
+        threadExecuteSQL.start();
         return "redirect:/updater";
     }
 
@@ -153,7 +164,7 @@ public class UpdaterController {
 
     @RequestMapping(value = { "/executeSQLNo" }, method = RequestMethod.POST)
     public String executeSQLNo()  {
-        System.out.println("Нажата кнопка No");
+        System.out.println("Нажата кнопка No"+" Текущий поток "+Thread.currentThread()+" NAME: "+Thread.currentThread().getName());
         toExecutionSQL.onClickNo = true;
         return "redirect:/updater";
     }
@@ -162,6 +173,19 @@ public class UpdaterController {
     public String executeSQLInfo()  {
         System.out.println("Нажата кнопка Info");
         toExecutionSQL.onClickInfo = true;
+        return "redirect:/textInfo";
+    }
+
+    /* Остановка SQL скриптов */
+    @RequestMapping(value = { "/stopExecuteSQL" }, method = RequestMethod.POST)
+    public String stopExecuteSQL()  {
+        System.out.println("Остановка  SQL скриптов");
+        /* посылаем команду на отмену  */
+        executeSQLNo();
+        /* очищаем список SQL */
+        toExecutionSQL.getSqlListResult().clear();
+        /* скрываем понель деалога  */
+        toExecutionSQL.setCheckFoundScripts(false);
         return "redirect:/updater";
     }
 

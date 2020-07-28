@@ -6,10 +6,11 @@ import my.org.site.server.ServerController;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
 
-public class ToExecutionSQL {
+public class ToExecutionSQL implements ProgressBar{
     /* подключение файла Server.properties  */
     private Properties property = new Properties();
 
@@ -22,10 +23,19 @@ public class ToExecutionSQL {
     public boolean onClickInfo;
 
     private boolean checkFoundScripts;
+    private boolean checkedSQL = false;
+
+    @Override
+    public boolean ProgressBarChecked(){
+        if (onClickYes && checkedSQL){
+            return true;
+        }
+        return false;
+    }
 
 
 
-    public void send(){
+   synchronized public void send(){
         try {
             property.load(new FileInputStream("Server.properties"));
         } catch (IOException e) {
@@ -57,29 +67,34 @@ public class ToExecutionSQL {
 
                     /* проверить, что вывился список скриптов для выполения */
                     if(resultLine.contains("Found") && resultLine.contains("script(s)")){
-                        System.out.println("Вывился список скриптов для выполения");
+                        System.out.println("Вывился список скриптов для выполения "+new Date());
                         setCheckFoundScripts(true);
 
-
+                        /* проверка ответа пользователя   */
                         while (tempVar){
-                            //System.out.println("onClickYes "+onClickYes+" onClickNo "+onClickNo+" tempVar "+tempVar);
                             if(onClickYes){
                                 out.println("UpdateSP: Y");
                                 System.out.println("onClickYes");
                                 tempVar = false;
-                            }
-                            if(onClickNo){
+                            }else if(onClickNo){
                                 out.println("UpdateSP: N");
                                 System.out.println("onClickNo");
                                 tempVar = false;
-                                return;
-                            }
-                            if(onClickInfo){
+                               // return;
+                            } else if(onClickInfo){
                                 System.out.println("onClickInfo");
+                            }else {
+                                System.out.println("onClickYes "+onClickYes+" onClickNo "+onClickNo+" tempVar "+tempVar+"Текущий поток"+Thread.currentThread() +" "+new Date());
                             }
-
                         }
+
                     }
+                    /* проверка успешноси выполнеия SQL */
+                    if (checkedSQL = resultLine.contains("execute SUCCEEDED") );
+                    //{
+                        //  checkedSQL = true;
+                    //}
+
 
                 }
 

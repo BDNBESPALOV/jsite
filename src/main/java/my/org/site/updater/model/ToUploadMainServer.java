@@ -65,8 +65,8 @@ public class ToUploadMainServer implements ProgressBar {
     public void setPart() {
         this.part = ProgressBar.percentageOfProgress(getSize(),getValueNow());
     }
-
-    public boolean getChecked() {
+    @Override
+    public boolean ProgressBarChecked() {
         return checked;
     }
 

@@ -1,4 +1,4 @@
-package my.org.site.md5;
+package my.org.site.updater.md5;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.IOException;

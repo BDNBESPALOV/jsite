@@ -7,7 +7,8 @@ public interface ProgressBar {
       int ProgressBarSize = 0;
       double ProgressBarValueNow = 0;
       int ProgressBarPart = 0;
-      boolean ProgressBarChecked = false;
+      boolean ProgressBarChecked ();
+
 
 
     static double roundToMegabytes(int vel) {

@@ -1,8 +1,9 @@
 package my.org.site.updater.model;
 
-import my.org.site.md5.ApacheMd5;
+
 import my.org.site.server.JClientPOJO;
 import my.org.site.server.ServerController;
+import my.org.site.updater.md5.ApacheMd5;
 import org.slf4j.Logger;
 
 import java.io.*;
@@ -57,7 +58,8 @@ public class ToUploadSPServerSQLvXML implements ProgressBar{
         this.part = ProgressBar.percentageOfProgress(getSize(),getValueNow());
     }
 
-    public boolean getChecked() {
+    @Override
+    public boolean ProgressBarChecked() {
         return checked;
     }
 

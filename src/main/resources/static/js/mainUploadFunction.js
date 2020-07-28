@@ -3,3 +3,7 @@
             document.getElementById("myUploadPatch").submit();
             location.reload();
         }
+
+        function clearTestSQL() {
+        	$('#testSQL').html('');
+        }

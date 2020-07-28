@@ -23,17 +23,32 @@
         $('#contentFileToUploadSP').load(document.URL +  ' #contentFileToUploadSP');
         $('.successCheckedToUploadSP').load(document.URL +  ' .successCheckedToUploadSP');
      }
+        }, 5000);
 
-
-
-
-        }, 2000);
         var refreshIntervalId = setInterval (function () {
              <!-- Обновление блока "Установка SQL"-->
             $('#roundContentExecuteSQL').load(document.URL +  ' #roundContentExecuteSQL');
-<!--        $('.successCheckedExecuteSQL').load(document.URL +  ' .successCheckedExecuteSQL');-->
-        }, 7000);
+            $('.successCheckedExecuteSQL').load(document.URL +  ' .successCheckedExecuteSQL');
+        }, 20000);
+
     </script>
+
+
+    <!-- Подключаем стили бутстрапа: -->
+    <!-- Подключаем стили для подсветки кода: -->
+    <link href="css/prettify.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!-- Подключаем скрипт бутстрапа: -->
+    <!-- Подключаем скрипт для подсветки кода: -->
+    <script src="js/prettify.js"></script>
+    <!-- Инициализация функции подсветки кода: -->
+    <script type="text/javascript">
+!function ($) {
+	$(function(){
+		window.prettyPrint && prettyPrint()
+	})
+}(window.jQuery)
+</script>
 
 </head>
 <body>
@@ -128,17 +143,25 @@
                 </tr>
             <tr>
 
-            <th ><IMG src="success.png"></th>
+            <th class="successCheckedExecuteSQL">
+                <#if checkScripts>
+                <IMG src="success.png">
+                </#if>
             <td>Установка SQL
             <div id="roundContentExecuteSQL">
+<pre id="contentExecuteSQL" class="prettyprint linenums lang-sql" style="font-size: 8pt;">
+ <#list toExecutionSQL as item>
+ ${item}
+ </#list>
+ </pre>
+<!--                    <div class="bg-dark" id="contentExecuteSQL">-->
+<!--                        <#list toExecutionSQL as item>-->
+<!--                            <p id="testSQL" class="text-light bg-dark" style="font-size: 8pt;">-->
+<!--                                ${item}-->
+<!--                              </p>-->
+<!--                        </#list>-->
+<!--                    </div>-->
 
-                    <div class="bg-dark" id="contentExecuteSQL">
-                        <#list toExecutionSQL as item>
-                            <p class="text-light bg-dark" style="font-size: 8pt;">
-                                ${item}
-                              </p>
-                        </#list>
-                    </div>
 
                     <#if checkFoundScripts>
                         <p>Вы хотите их выполнить?</p>
@@ -171,9 +194,11 @@
                 <form method="post" action="executeSQL">
                     <button type="submit" class="btn btn-primary btn-sm" >Выполнить!</button>
                 </form>
-                <form method="post" action="clearUpload">
-                    <button type="submit" class="btn btn-secondary btn-sm" name="clearUpload">Остановить</button>
+                <form method="post" action="stopExecuteSQL">
+                    <button  type="submit" class="btn btn-secondary btn-sm"  onclick="clearTestSQL()">Остановить</button>
                 </form>
+
+
 
             </td>
         </tr>
