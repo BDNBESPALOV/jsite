@@ -5,9 +5,9 @@
 
     <groupId>com.example</groupId>
     <artifactId>serving-web-content</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.5</version>
     <name>serving-web-content</name>
-    <description>Demo project for Spring Boot</description>
+    <description>trying to create a server controller</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

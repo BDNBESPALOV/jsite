@@ -7,6 +7,7 @@ public interface ProgressBar {
       int ProgressBarSize = 0;
       double ProgressBarValueNow = 0;
       int ProgressBarPart = 0;
+      /* проверка на успешное выплнение */
       boolean ProgressBarChecked ();
 
 

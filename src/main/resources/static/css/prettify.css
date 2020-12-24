@@ -15,7 +15,11 @@ pre {
 	border: 1px solid rgba(0, 0, 0, 0.15);
 	-webkit-border-radius: 4px;
 	        border-radius: 4px;
+	        font-size: 8pt;
 }
+
+
+
 pre.prettyprint {
 	margin-bottom: 20px;
 }
