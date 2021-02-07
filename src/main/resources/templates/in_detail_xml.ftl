@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>Подробноя информация</title>
+    <title>Подробноя информация</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
@@ -34,11 +34,9 @@
     </a>
 </nav>
 <pre class="prettyprint linenums lang-sql">
-<#list toExecutionSQL as item>${item}
+<#list toExecutionXML as item>${item}
 </#list>
 </pre>
-
-
 <!-- Встраиваемые классы (технологии):
     class="prettyprint lang-html"
     class="prettyprint lang-css"

@@ -1,6 +1,7 @@
 package my.org.site.updater;
 
 import my.org.site.updater.model.ToExecutionSQL;
+import my.org.site.updater.model.ToExecutionXML;
 import my.org.site.updater.model.ToUploadSPServerSQLvXML;
 import my.org.site.updater.model.ToUploadMainServer;
 import org.springframework.stereotype.Controller;
@@ -38,6 +39,8 @@ public class UpdaterController {
     public ToUploadSPServerSQLvXML toUploadSPServerSQLvXML = new ToUploadSPServerSQLvXML();
     /* запуск выполнеия SQL скриптов */
     private ToExecutionSQL toExecutionSQL = new ToExecutionSQL();
+    /* запуск выполнеия XML скриптов */
+    private ToExecutionXML toExecutionXML = new ToExecutionXML();
 
     /* дериктория загруженного патча */
     private final String PATCH_DIR = property.getProperty("directory.downloaded.patch");
@@ -64,18 +67,20 @@ public class UpdaterController {
         model.addAttribute("checkedToUploadSP", toUploadSPServerSQLvXML.ProgressBarChecked());
         /*	Установка SQL */
         model.addAttribute("toExecutionSQL", toExecutionSQL.getSqlListResult());
+        /*	Установка XML */
+        model.addAttribute("toExecutionXML", toExecutionXML.getSqlListResult());
  ///       model.addAttribute("checkFoundScripts", toExecutionSQL.getCheckFoundScripts());
 //        model.addAttribute("checkScripts", toExecutionSQL.ProgressBarChecked());
         model.addAttribute("checkedSQLType", toExecutionSQL.getCheckedSQLType());
         return "updater";
     }
 
-    @RequestMapping(value = {"/textInfo"}, method = RequestMethod.GET)
-    public String textInfo(Model model) {
+    @RequestMapping(value = {"/in_detail_sql"}, method = RequestMethod.GET)
+    public String in_detail_sql(Model model) {
         /*	Установка SQL */
         model.addAttribute("toExecutionSQL", toExecutionSQL.getSqlListResult());
 
-        return "textInfo";
+        return "in_detail_sql";
     }
 
     /* Обновить систему, автоматический режим*/
@@ -144,7 +149,7 @@ public class UpdaterController {
         return "redirect:/updater";
     }
 
-    /* Остановить загрузку потча на сервер обновления SQL/XML */
+    /* Остановить загрузку патча, на "сервер обновления SQL/XML" */
     @RequestMapping(value = {"/clearUploadSPServerSQLvXML"}, method = RequestMethod.POST)
     public String clearUploadPostServerSQLvXML(Model model) {
         toUploadSPServerSQLvXML.closeUpload();
@@ -154,16 +159,8 @@ public class UpdaterController {
 
 
 
-
-
-
-
-
-
-
-
     /**
-     * Выполнения SQL скриптов
+     * Выполнение SQL скриптов
      */
     @RequestMapping(value = {"/executeSQL"}, method = RequestMethod.POST)
     public String executeSQL(HttpServletResponse response) throws IOException {
@@ -212,7 +209,7 @@ public class UpdaterController {
         System.out.println("Нажата кнопка Info");
         toExecutionSQL.onClickInfo = true;
 
-        return "redirect:/textInfo";
+        return "redirect:/in_detail_sql";
     }
 
     /* Остановка SQL скриптов */
@@ -230,78 +227,88 @@ public class UpdaterController {
     }
 
 
-    @RequestMapping(value = {"/textInfo/text"}, method = RequestMethod.POST)
-    public void testPage(HttpServletResponse response) throws  java.io.IOException {
-        //   response.setHeader("Access-Control-Allow-Origin", "*");
-        // String ourForm_inp = request.getParameter("ourForm_inp");
-
-
-        for (int i = 10000; i > 0; i--) {
-            System.out.println("BufferSize " + response.getBufferSize());
-            response.getWriter().print(i + " ");
-            response.flushBuffer();
-        }
-        try {
-            response.getWriter().print("alert-success");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        response.setContentType("text/html;charset=utf-8");
-        response.setStatus(HttpServletResponse.SC_OK);
-
-//        // отправка значения напряжения клиенту до тех пор пока ему не надоест эти значения читать
-//        for (int i = 0; i < 10; i++) {
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            os.print("voltmeter.getVoltage()" + "\n" + i);
+//    @RequestMapping(value = {"/in_detail_sql/text"}, method = RequestMethod.POST)
+//    public void testPage(HttpServletResponse response) throws  java.io.IOException {
+//        //   response.setHeader("Access-Control-Allow-Origin", "*");
+//        // String ourForm_inp = request.getParameter("ourForm_inp");
 //
-//            System.out.println("voltmeter.getVoltage()" + "\n" + i);
-
+//
+//        for (int i = 10000; i > 0; i--) {
+//            System.out.println("BufferSize " + response.getBufferSize());
+//            response.getWriter().print(i + " ");
 //            response.flushBuffer();
-//            os.flush();
 //        }
-
-//        if(ourForm_inp.contains("success")){
-//
-//            try {
-//                response.getWriter().print("alert-success");
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
+//        try {
+//            response.getWriter().print("alert-success");
+//        } catch (IOException e) {
+//            e.printStackTrace();
 //        }
-//        if(ourForm_inp.contains("danger")){
 //
-//            try {
-//                response.getWriter().print("alert-danger");
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+//        response.setContentType("text/html;charset=utf-8");
+//        response.setStatus(HttpServletResponse.SC_OK);
 //
-//        }
+////        // отправка значения напряжения клиенту до тех пор пока ему не надоест эти значения читать
+////        for (int i = 0; i < 10; i++) {
+////            try {
+////                Thread.sleep(1000);
+////            } catch (InterruptedException e) {
+////                e.printStackTrace();
+////            }
+////            os.print("voltmeter.getVoltage()" + "\n" + i);
+////
+////            System.out.println("voltmeter.getVoltage()" + "\n" + i);
+//
+////            response.flushBuffer();
+////            os.flush();
+////        }
+//
+////        if(ourForm_inp.contains("success")){
+////
+////            try {
+////                response.getWriter().print("alert-success");
+////            } catch (IOException e) {
+////                e.printStackTrace();
+////            }
+////
+////        }
+////        if(ourForm_inp.contains("danger")){
+////
+////            try {
+////                response.getWriter().print("alert-danger");
+////            } catch (IOException e) {
+////                e.printStackTrace();
+////            }
+////
+////        }
+//
+//
+//        //   System.out.println("ourForm_inp = " + ourForm_inp);
+//
+//
+//    }
 
 
-        //   System.out.println("ourForm_inp = " + ourForm_inp);
-
-
-    }
-
-
-    @RequestMapping(value = {"/textInfo/executeSQL"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/in_detail_sql/executeSQL"}, method = RequestMethod.POST)
     public void testPageX(HttpServletResponse response) throws java.io.IOException {
         for (int i = 100; i > 0; i--) {
             ///System.out.println("BufferSize " + response.getBufferSize());
             response.getWriter().print(i + "<>");
            /// response.flushBuffer();
         }
-//        response.setContentType("text/html;charset=utf-8");
-//        response.setStatus(HttpServletResponse.SC_OK);
+    }
 
+    /**
+     * Выполнение XML скриптов
+     */
+    @RequestMapping(value = {"/executeXML"}, method = RequestMethod.POST)
+    public String executeXML() {
+        System.out.println("Выполнение XML скриптов");
+        toExecutionXML.send();
+//        new Thread(() -> {
+//            toExecutionXML.send();
+//        }, "ThreadExecuteXML");
 
+        return "redirect:/updater";
     }
 
 }

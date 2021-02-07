@@ -161,18 +161,22 @@ public class ToExecutionSQL implements ProgressBar{
                 if(onClickBreak) {
                     out.println("FAILED_Break");
                     System.out.println("onClickBreak");
+                    checkedSQLType = ""; /* убираем мемю действия */
                     tempVarError = false;
                 } else if (onClickContinue){
                     out.println("FAILED_Continue");
                     System.out.println("onClickContinue");
+                    checkedSQLType = ""; /* убираем мемю действия */
                     tempVarError = false;
                 } else if (onClickRollback){
                     out.println("FAILED_Rollback");
                     System.out.println("onClickRollback");
+                    checkedSQLType = ""; /* убираем мемю действия */
                     tempVarError = false;
                 } else if (onClickRRollback){
                     out.println("FAILED_RRollback");
                     System.out.println("onClickRRollback");
+                    checkedSQLType = ""; /* убираем мемю действия */
                     tempVarError = false;
                 }
             }

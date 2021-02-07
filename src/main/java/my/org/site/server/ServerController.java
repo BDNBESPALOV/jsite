@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -183,7 +184,7 @@ public class ServerController {
 //    }
 
 
-
+    @PostConstruct /*для автоматичского зпуска аналог init-method */
     @RequestMapping(value = {"/startServer" }, method = RequestMethod.POST)
     public  String startServer(){
         if(!start){

@@ -146,7 +146,9 @@
                     </td>
                 </tr>
 
-<!--    Установка SQL   -->
+<!--//////////////////////////////////-->
+<!--///////// Установка SQL //////////-->
+<!--//////////////////////////////////-->
 
 
             <tr  id="response" class="alert alert-${checkedSQLType}">
@@ -163,17 +165,14 @@
                 </th>
             <td>Установка SQL
             <div id="roundContentExecuteSQL">
-<!--                <pre id="contentExecuteSQL" name="preSQL" class="prettyprint linenums lang-sql" >-->
+<!--          <pre id="contentExecuteSQL" name="preSQL" class="prettyprint linenums lang-sql" >-->
                <pre id="contentExecuteSQL" name="preSQL">
 <#list toExecutionSQL as item>
 ${item}
  </#list>
                 </pre>
-
-
                     <#if checkedSQLType == 'execute' >
                         <p>Вы хотите их выполнить?</p>
-
                             <table>
                                 <tr>
                                     <td>
@@ -193,8 +192,6 @@ ${item}
                                     </td>
                                 </tr>
                             </table>
-
-
                     <#elseif checkedSQLType == 'danger'>
                             <table>
                                 <tr>
@@ -224,7 +221,6 @@ ${item}
                                 </tr>
                             </table>
                     </#if>
-
                 </div>
             </td>
 
@@ -244,38 +240,31 @@ ${item}
 
 
 
+<!--//////////////////////////////////-->
+<!--///////// Установка XML //////////-->
+<!--//////////////////////////////////-->
+
         <tr>
-            <th ><IMG src="success.png"></th>
+            <th >
+                <div class="successCheckedExecuteXML">
+                    <#if checkedSQLType == 'success' >
+                    <IMG src="success.png">
+                    <#elseif checkedSQLType == 'danger'>
+                    <IMG src="danger.png">
+                    <#elseif checkedSQLType == 'warning'>
+                    <IMG src="upload.png">
+                </#if>
+                </div>
+            </th>
             <td>Установка XML
-
-                <table>
-                    <tr>
-                        <td>
-                            <form method="post" action="executeSQLYes" >
-                                <button type="submit" value="executeSQLYes"  class="btn btn-primary btn-sm">Да</button>
-                            </form>
-                        </td>
-                        <td>
-                            <form method="post" action="executeSQLNo" c>
-                                <button  class="btn btn-secondary btn-sm">Нет</button>
-                            </form>
-                        </td>
-                        <td>
-                            <form method="post" action="executeSQLInfo" >
-                                <button type="submit" class="btn btn-secondary btn-sm" name="clearUpload">Подробности в новом окне</button>
-                            </form>
-                        </td>
-                    </tr>
-                </table>
-
-
-
-
-
-
+                <pre id="contentExecuteSQL" name="preSQL">
+<#list toExecutionXML as item>
+${item}
+ </#list>
+                </pre>
             </td>
             <td>
-                <form >
+                <form method="post" action="executeXML">
                     <button class="btn btn-primary btn-sm" >Выполнить!</button>
                 </form>
                 <form method="post" action="clearUpload">
@@ -300,6 +289,17 @@ ${item}
     </div>
     </div>
 </div>
+
+
+<!--//////////////////////////////////-->
+<!--//////////////////////////////////-->
+<!--//////////////////////////////////-->
+<!--//////////////////////////////////-->
+
+
+
+
+
 
 <div class="container">
      <div class="alert alert-success">
